@@ -2,11 +2,11 @@ program TubesDaspro;
 {SPESIFIKASI : Mensimulasikan 10 hari pertama dari Engi's Kitchen}
 
 uses uload;
-//uses usimulasi;
+//uses usimulasi dan uvalidation;
 
 {KAMUS UTAMA}
 const 
-	NMax = 10000;
+	NMax = 100;
 var
 	{variabel yang terpakai dalam algoritma utama}
 	perintah		: string; //menerima masukan perintah dari user
@@ -14,6 +14,8 @@ var
 	ID				: integer; //nomor simulasi
 	loaded			: boolean;
 	programSelesai	: boolean;
+	stopSimulasi	: boolean;
+	sleep			: boolean;
 	
 	{Array Penyimpan}
 	dataBahanMentah	: tabelBahanMentah;
@@ -39,7 +41,7 @@ begin
 		writeln('Berikut pilihan perintah yang dapat anda masukkan pada prompt :');
 		writeln('1. load');
 		writeln('2. exit');
-		writeln('3. start');
+		writeln('3. start i (i=id yang diinginkan)');
 
 		{MENYEDIAKAN PROMPT}
 		write('> '); readln(perintah);
@@ -48,6 +50,7 @@ begin
 		if (perintah='load') then
 		begin
 			mainLoad('bahanMentah.in','bahanOlahan.in','resep.in','simulasi.in',dataBahanMentah,dataBahanOlahan,dataResep,dataSimulasi);
+			loaded:=true;
 		end
 		else if (perintah='exit') then
 		begin
@@ -62,11 +65,38 @@ begin
 		begin
 			if (loaded) then
 			begin
+				stopSimulasi:=false;
 				val(copy(perintah,pos(' ',perintah)+1,length(perintah)) , ID, error); 
 				//Baris 43 : mengambil bagian angka dari string(perintah) dan memasukkannya ke variabel(ID)
 				perintah := 'start';
 				//mainSimulasi(ID); //TO DO : Bikin procedure startSimulasi (checklist : x)
+				if ID=0 then
+				ID:=1; //DEBUG
 				writeln('sedang menjalankan fitur startSimulasi(',ID,')'); //DEBUG
+				{Inisialisasi}
+				sleep:=false;
+				dataSimulasi.itemKe[ID].jumlahHariHidup:=1;
+				{Simulasi Dimulai}
+				
+					repeat
+						begin
+						writeln('Selamat pagi!, hari ini tanggal: ',dataSimulasi.itemKe[ID].tanggalSimulasi.hari,'/',dataSimulasi.itemKe[ID].tanggalSimulasi.bulan,'/',dataSimulasi.itemKe[ID].tanggalSimulasi.tahun);
+						repeat {Memulai aktivitas hari ini}
+							begin
+							writeln('Sisa energi: ',dataSimulasi.itemKe[ID].jumlahEnergi);
+							checkEnergi(dataSimulasi.itemKe[ID].jumlahEnergi,sleep);
+							if sleep=false then
+								activity(dataSimulasi.itemKe[ID].jumlahEnergi,dataBahanMentah,dataBahanOlahan,stopSimulasi,sleep);
+							end;
+						until (stopSimulasi=true) or (sleep=true);
+						resetDay(sleep,dataSimulasi.itemKe[ID].tanggalSimulasi,dataSimulasi.itemKe[ID].jumlahEnergi,dataSimulasi.itemKe[ID].jumlahHariHidup);
+							if dataSimulasi.itemKe[ID].jumlahHariHidup>10 then
+								stopSimulasi:=true;
+						end;
+					until stopSimulasi=true;
+					
+				{Simulasi Berakhir}	
+					
 			end
 			else {perintah "load" belum dijalankan}
 			begin
