@@ -2,25 +2,69 @@ program TubesDaspro;
 {SPESIFIKASI : Mensimulasikan 10 hari pertama dari Engi's Kitchen}
 
 uses uload;
-//uses usimulasi;
+
 
 {KAMUS UTAMA}
-const 
-	NMax = 10000;
 var
-	{variabel yang terpakai dalam algoritma utama}
+	{Variabel yang terpakai dalam algoritma utama}
 	perintah		: string; //menerima masukan perintah dari user
 	error			: integer; //penampung variabel jika terjadi error pada konversi string ke integer
 	ID				: integer; //nomor simulasi
 	loaded			: boolean;
 	programSelesai	: boolean;
 	
-	{Array Penyimpan}
+	{Array penyimpan}
 	dataBahanMentah	: tabelBahanMentah;
 	dataBahanOlahan	: tabelBahanOlahan;
 	dataResep		: tabelResep;
 	dataSimulasi	: tabelSimulasi;
-	
+
+{Daftar prosedur}
+procedure startSimulasi(idx	: integer);
+var
+	stopSimulasi : boolean;
+begin
+	stopSimulasi := false;
+	tampilkanMenu('startSimulasi');
+	repeat
+		write('>> '); readln(perintah);
+		(*
+		case (perintah) of
+			'stopSimulasi'		: stopSimulasi:=true;
+			'beliBahan'			: beliBahan();
+			'olahBahan'			: olahBahan();
+			'jualOlahan'		: jualOlahan();
+			'jualResep'			: jualResep();
+			'makan'				: makan();
+			'istirahat'			: istirahat();
+			'tidur'				: tidur();
+			'lihatStatistik'	: lihatStatistik();
+			'lihatInventori'	: lihatInventori();
+			'lihatResep'		: lihatResep();
+			'cariResep'			: cariResep();
+			'tambahResep'		: tambahResep();
+			'upgradeInventori'	: upgradeInventori();
+		else
+			shoutWarning('salahPerintah');
+		end;*)
+	until (stopSimulasi);
+end;
+
+{Daftar fungsi}	
+function cariIndeksNomorSimulasi(ID : integer):integer;
+var
+	i : integer;
+begin
+	for i := 1 to dataSimulasi.banyakItem do
+	begin
+		if (dataSimulasi.itemKe[i].nomor = ID) then
+		begin
+			cariIndeksNomorSimulasi := i;
+			break;
+		end;
+	end;
+end;
+
 {ALGORITMA UTAMA}
 begin
 	{TAMPILAN ANTARMUKA AWAL}
@@ -35,51 +79,46 @@ begin
 	programSelesai := false;
 	
 	repeat
-		{TAMPILAN PETUNJUK AWAL}
-		writeln('Berikut pilihan perintah yang dapat anda masukkan pada prompt :');
-		writeln('1. load');
-		writeln('2. exit');
-		writeln('3. start');
+		{TAMPILAN MENU UTAMA}
+		tampilkanMenu('utama');
 
 		{MENYEDIAKAN PROMPT}
 		write('> '); readln(perintah);
 		
 		{MENGEKSESUKSI PROMPT}
-		if (perintah='load') then
-		begin
-			mainLoad('bahanMentah.in','bahanOlahan.in','resep.in','simulasi.in',dataBahanMentah,dataBahanOlahan,dataResep,dataSimulasi);
-		end
-		else if (perintah='exit') then
-		begin
-			//exit(); //TO DO : Bikin procedure exit (checklist : x)
-			writeln('sedang menjalankan fitur exit()'); //DEBUG
-			writeln('Terima kasih telah menggunakan jasa kami!');
-			writeln('Sampai berjumpa di lain waktu!');
-			writeln('Tekan "enter" untuk mengakhiri program');
-			programSelesai := true;
-		end
-		else if (pos('start',perintah)<>0) then //Kalo ketemu substring 'start' dalam string 'perintah'
-		begin
-			if (loaded) then
-			begin
-				val(copy(perintah,pos(' ',perintah)+1,length(perintah)) , ID, error); 
-				//Baris 43 : mengambil bagian angka dari string(perintah) dan memasukkannya ke variabel(ID)
-				perintah := 'start';
-				//mainSimulasi(ID); //TO DO : Bikin procedure startSimulasi (checklist : x)
-				writeln('sedang menjalankan fitur startSimulasi(',ID,')'); //DEBUG
-			end
-			else {perintah "load" belum dijalankan}
-			begin
-				writeln('WARNING : Anda belum meload file eksternal!');
-				writeln('-------------------------------------------');
-				writeln();
-			end
-		end
-		else {masukkan user tidak memenuhi}
-		begin
-			writeln('WARNING : Perintah tidak sesuai, silahkan ulangi pilihan anda!');
-			writeln('--------------------------------------------------------------');
-			writeln();
+		case (perintah) of 
+			'load' 				: mainLoad('bahanMentah.in','bahanOlahan.in','resep.in','simulasi.in',dataBahanMentah,dataBahanOlahan,dataResep,dataSimulasi);
+			'exit' 				: begin
+									//exit(); //TO DO : Bikin procedure exit (checklist : x)
+									writeln('Terima kasih telah menggunakan jasa kami!');
+									writeln('Sampai berjumpa di lain waktu!');
+									writeln('Tekan "enter" untuk mengakhiri program');
+									programSelesai := true;
+								 end;(*
+			'lihatInventori'	: lihatInventori();
+			'lihatResep'		: lihatResep();
+			'cariResep'			: cariResep();
+			'tambahResep'		: tambahResep();
+			'upgradeInventori'	: upgradeInventori();*)
+		else begin
+				if (pos('start',perintah)<>0) then //Kalo ketemu substring 'start' dalam string 'perintah'
+				begin
+					if (loaded) then
+					begin
+						val(copy(perintah,pos(' ',perintah)+1,length(perintah)) , ID, error); //Baris 43 : mengambil bagian angka dari string(perintah) dan memasukkannya ke variabel(ID)
+						perintah := 'start';
+						//startSimulasi(cariIndeksNomorSimulasi(ID)); //TO DO : Bikin procedure startSimulasi (checklist : x)
+					end
+					else {perintah "load" belum dijalankan}
+					begin
+						shoutWarning('belumLoad');
+					end
+				end
+				else {masukkan user tidak memenuhi}
+				begin
+					shoutWarning('salahPerintah');
+				end;
+			 end;
 		end;
 		
 	until (programSelesai);
