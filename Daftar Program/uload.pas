@@ -3,7 +3,9 @@ unit uload;
 
 interface
 
+	{###########################}
 	{*** ABSTRACT DATA TYPE *** }
+	{###########################}
 	
 	const NMax = 1000;
 	type tanggal = record
@@ -46,7 +48,11 @@ interface
 			totalPengeluaran		: integer;
 			totalPendapatan			: integer;
 		end;
-	type dataInteger		= array [1..NMax] of integer;
+	
+	type tabelInteger		= record
+			itemKe		: array [1..NMax] of integer;
+			banyakItem	: integer;
+		end;
 	type tabelString		= record
 			itemKe		: array [1..NMax] of string;
 			banyakItem	: integer;
@@ -60,14 +66,17 @@ interface
 			banyakItem	: integer;
 		end;
 	type tabelResep			= record
-			itemKe		: array [1..NMax] of Resep;
+			itemKe		: array [1..NMax] of resep;
 			banyakItem	: integer;
 		end;
 	type tabelSimulasi		= record
-			itemKe		: array [1..NMax] of Simulasi;
+			itemKe		: array [1..NMax] of simulasi;
 			banyakItem	: integer;
 		end;
-	{*** KELOMPOK SUBPROGRAM ***}
+	
+	{################################################################}
+	{*** KELOMPOK SUBPROGRAM UNTUK MELOAD DATA DARI FILE EKSTERNAL***}
+	{################################################################}
 	
 	procedure mainLoad(nf_bahanMentah : string; nf_bahanOlahan:string; nf_resep : string; nf_simulasi : string;
 		var T1 : tabelBahanMentah; var T2 : tabelBahanOlahan; var T3 : tabelResep; var T4 : tabelSimulasi);
@@ -98,9 +107,19 @@ interface
 	{ I.S	: tanggal masih dalam format dd//mm/yyyy
 	* F.S	: tanggal sudah dalam bentuk record tanggal}
 	
+	{######################################################}
+	{**********KELOMPOK SUBPROGRAM UNTUK SIMULASI**********}
+	{######################################################}
+	
+	
+	
 	
 implementation
 
+	{################################################################}
+	{*** KELOMPOK SUBPROGRAM UNTUK MELOAD DATA DARI FILE EKSTERNAL***}
+	{################################################################}
+	
 	procedure mainLoad(nf_bahanMentah : string; nf_bahanOlahan:string; nf_resep : string; nf_simulasi : string;
 		var T1 : tabelBahanMentah; var T2 : tabelBahanOlahan; var T3 : tabelResep; var T4 : tabelSimulasi);
 	{ I.S	: semua data belum terupload dari file eksternal	ket* : nf=nama file
@@ -292,5 +311,10 @@ implementation
 		val(copy(formatString,4,2),x.hari,error);
 		val(copy(formatString,7,4),x.hari,error);
 	end;
+	
+	{######################################################}
+	{**********KELOMPOK SUBPROGRAM UNTUK SIMULASI**********}
+	{######################################################}
+	
 	
 end.
