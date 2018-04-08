@@ -89,19 +89,19 @@ interface
 
 	procedure loadFileBahanMentah(namaFile : string; var T : tabelBahanMentah);
 	{ I.S	: "T" kosong
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
 	procedure loadFileBahanOlahan(namaFile : string; var T : tabelBahanOlahan);
 	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
 	procedure loadFileResep(namaFile : string; var T : tabelResep);
 	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
 	procedure loadFileSimulasi(namaFile : string; var T : tabelSimulasi);
 	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
 	procedure ambilTanggal(formatString : string; var x : tanggal);
 	{ I.S	: tanggal masih dalam format dd//mm/yyyy
@@ -152,7 +152,7 @@ implementation
 	
 	procedure loadFileBahanMentah(namaFile : string; var T : tabelBahanMentah);
 	{ I.S	: "T" kosong
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	{KAMUS LOKAL}
 	var
 		fin 	: text;
@@ -185,7 +185,7 @@ implementation
 	
 	procedure loadFileBahanOlahan(namaFile : string; var T : tabelBahanOlahan);
 	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	{KAMUS LOKAL}
 	var
 		fin 	: text;
@@ -222,7 +222,7 @@ implementation
 	
 	procedure loadFileResep(namaFile : string; var T : tabelResep);
 	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	{KAMUS LOKAL}
 	var
 		fin 	: text;
@@ -259,9 +259,7 @@ implementation
 	
 	procedure loadFileSimulasi(namaFile : string; var T : tabelSimulasi);
 	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
-	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	{KAMUS LOKAL}
 	var
 		fin 	: text;
