@@ -1,8 +1,7 @@
 program TubesDaspro;
 {SPESIFIKASI : Mensimulasikan 10 hari pertama dari Engi's Kitchen}
 
-uses uload;
-
+uses uload,upesan;
 
 {KAMUS UTAMA}
 var
@@ -89,10 +88,7 @@ begin
 		case (perintah) of 
 			'load' 				: mainLoad('bahanMentah.in','bahanOlahan.in','resep.in','simulasi.in',dataBahanMentah,dataBahanOlahan,dataResep,dataSimulasi);
 			'exit' 				: begin
-									//exit(); //TO DO : Bikin procedure exit (checklist : x)
-									writeln('Terima kasih telah menggunakan jasa kami!');
-									writeln('Sampai berjumpa di lain waktu!');
-									writeln('Tekan "enter" untuk mengakhiri program');
+									shoutWarning('exitProgram');
 									programSelesai := true;
 								 end;(*
 			'lihatInventori'	: lihatInventori();
