@@ -111,7 +111,16 @@ interface
 	{**********KELOMPOK SUBPROGRAM UNTUK SIMULASI**********}
 	{######################################################}
 	
+	{**********KELOMPOK SUBPROGRAM FITUR TIDUR**********}
+
+	procedure checkEnergi(E : integer; var sleep : boolean);
+	{Mengecek apakah energi sudah habis}
 	
+	procedure resetDay(var sleep : boolean;var tgl : tanggal;var energy : integer;var hariHidup : integer);
+	{Prosedur Me-reset Hari}
+	
+	procedure activity(var energy : integer;var Mentah : tabelBahanMentah;var Olahan : tabelBahanOlahan;var stop : boolean;var sleep : boolean);
+	{Prosedur aktivitas hari ini}
 	
 	
 implementation
@@ -316,7 +325,58 @@ implementation
 	{**********KELOMPOK SUBPROGRAM UNTUK SIMULASI**********}
 	{######################################################}
 	
+	{**********KELOMPOK SUBPROGRAM FITUR TIDUR*********}
+
+	procedure checkEnergi(E : integer; var sleep : boolean);
+	begin
+		if (E<=0) then
+			begin
+				writeln('Energi habis! Chef akan tidur...');
+				sleep:=true;
+			end
+		else
+		writeln('Masukkan perintah: (tidur/beliBahan/stopSimulasi) ');
+	end;
+
+	procedure resetDay(var sleep : boolean;var tgl : tanggal;var energy : integer;var hariHidup : integer);
+	begin
+		sleep:=false;
+		tgl.hari:=tgl.hari+1; {Bagian ini harus diperbaiki agar sesuai sistem kalendar}
+		energy:=10;
+		hariHidup:=hariHidup+1;
+	end;
 	
+	procedure activity(var energy : integer;var Mentah : tabelBahanMentah;var Olahan : tabelBahanOlahan;var stop : boolean;var sleep : boolean);
+	var
+		p, s : string;
+		i : integer;
+	begin
+		readln(p);
+		if p='beliBahan' then
+		begin
+			s:=copy(p,pos(' ',p)+1,length(p));
+			i:=0;
+			repeat
+				i:=i+1;
+			until (Mentah.itemKe[i].nama=s) or (i>=Mentah.banyakItem);
+			if Mentah.itemKe[i].nama=s then
+				begin
+				Mentah.itemKe[i].jumlahTersedia:=Mentah.itemKe[i].jumlahTersedia+1;
+				energy:=energy-1;
+				end
+			else
+				writeln('Item Tidak Ditemukan!');
+		end
+		else if p='tidur' then
+			if energy=10 then
+			writeln('Anda tidak bisa tidur saat energi anda penuh!')
+			else
+			sleep:=true
+		else if p='stopSimulasi' then
+			stop:=true
+		else
+			writeln('Pilihan Salah!');
+	end;
 	
 	
 end.

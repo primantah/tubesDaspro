@@ -11,6 +11,7 @@ var
 	ID				: integer; //nomor simulasi
 	loaded			: boolean;
 	programSelesai	: boolean;
+	sleep			: boolean;
 	
 	{Array penyimpan}
 	dataBahanMentah	: tabelBahanMentah;
@@ -19,12 +20,35 @@ var
 	dataSimulasi	: tabelSimulasi;
 
 {Daftar prosedur}
-procedure startSimulasi(idx	: integer);
+procedure startSimulasi(ID	: integer);
 var
 	stopSimulasi : boolean;
 begin
 	stopSimulasi := false;
 	tampilkanMenu('startSimulasi');
+	{Inisialisasi}
+				sleep:=false;
+				dataSimulasi.itemKe[ID].jumlahHariHidup:=1;
+				{Simulasi Dimulai}
+				
+					repeat
+						begin
+						writeln('Selamat pagi!, hari ini tanggal: ',dataSimulasi.itemKe[ID].tanggalSimulasi.hari,'/',dataSimulasi.itemKe[ID].tanggalSimulasi.bulan,'/',dataSimulasi.itemKe[ID].tanggalSimulasi.tahun);
+						repeat {Memulai aktivitas hari ini}
+							begin
+							writeln('Sisa energi: ',dataSimulasi.itemKe[ID].jumlahEnergi);
+							checkEnergi(dataSimulasi.itemKe[ID].jumlahEnergi,sleep);
+							if sleep=false then
+								activity(dataSimulasi.itemKe[ID].jumlahEnergi,dataBahanMentah,dataBahanOlahan,stopSimulasi,sleep);
+							end;
+						until (stopSimulasi=true) or (sleep=true);
+						resetDay(sleep,dataSimulasi.itemKe[ID].tanggalSimulasi,dataSimulasi.itemKe[ID].jumlahEnergi,dataSimulasi.itemKe[ID].jumlahHariHidup);
+							if dataSimulasi.itemKe[ID].jumlahHariHidup>10 then
+								stopSimulasi:=true;
+						end;
+					until stopSimulasi=true;
+					
+				{Simulasi Berakhir}	
 	repeat
 		write('>> '); readln(perintah);
 		(*
@@ -47,21 +71,6 @@ begin
 			shoutWarning('salahPerintah');
 		end;*)
 	until (stopSimulasi);
-end;
-
-{Daftar fungsi}	
-function cariIndeksNomorSimulasi(ID : integer):integer;
-var
-	i : integer;
-begin
-	for i := 1 to dataSimulasi.banyakItem do
-	begin
-		if (dataSimulasi.itemKe[i].nomor = ID) then
-		begin
-			cariIndeksNomorSimulasi := i;
-			break;
-		end;
-	end;
 end;
 
 {ALGORITMA UTAMA}
@@ -103,7 +112,7 @@ begin
 					begin
 						val(copy(perintah,pos(' ',perintah)+1,length(perintah)) , ID, error); //Baris 43 : mengambil bagian angka dari string(perintah) dan memasukkannya ke variabel(ID)
 						perintah := 'start';
-						//startSimulasi(cariIndeksNomorSimulasi(ID)); //TO DO : Bikin procedure startSimulasi (checklist : x)
+						//startSimulasi(ID); //TO DO : Bikin procedure startSimulasi (checklist : x)
 					end
 					else {perintah "load" belum dijalankan}
 					begin
