@@ -3,9 +3,11 @@ unit uload;
 
 interface
 
+	{###########################}
 	{*** ABSTRACT DATA TYPE *** }
+	{###########################}
 	
-	const NMax = 100;
+	const NMax = 1000;
 	type tanggal = record
 			hari	: integer;
 			bulan	: integer;
@@ -46,7 +48,11 @@ interface
 			totalPengeluaran		: integer;
 			totalPendapatan			: integer;
 		end;
-	type dataInteger		= array [1..NMax] of integer;
+	
+	type tabelInteger		= record
+			itemKe		: array [1..NMax] of integer;
+			banyakItem	: integer;
+		end;
 	type tabelString		= record
 			itemKe		: array [1..NMax] of string;
 			banyakItem	: integer;
@@ -60,14 +66,17 @@ interface
 			banyakItem	: integer;
 		end;
 	type tabelResep			= record
-			itemKe		: array [1..NMax] of Resep;
+			itemKe		: array [1..NMax] of resep;
 			banyakItem	: integer;
 		end;
 	type tabelSimulasi		= record
-			itemKe		: array [1..NMax] of Simulasi;
+			itemKe		: array [1..NMax] of simulasi;
 			banyakItem	: integer;
 		end;
-	{*** KELOMPOK SUBPROGRAM ***}
+	
+	{################################################################}
+	{*** KELOMPOK SUBPROGRAM UNTUK MELOAD DATA DARI FILE EKSTERNAL***}
+	{################################################################}
 	
 	procedure mainLoad(nf_bahanMentah : string; nf_bahanOlahan:string; nf_resep : string; nf_simulasi : string;
 		var T1 : tabelBahanMentah; var T2 : tabelBahanOlahan; var T3 : tabelResep; var T4 : tabelSimulasi);
@@ -80,24 +89,30 @@ interface
 
 	procedure loadFileBahanMentah(namaFile : string; var T : tabelBahanMentah);
 	{ I.S	: "T" kosong
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
 	procedure loadFileBahanOlahan(namaFile : string; var T : tabelBahanOlahan);
 	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
 	procedure loadFileResep(namaFile : string; var T : tabelResep);
 	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
 	procedure loadFileSimulasi(namaFile : string; var T : tabelSimulasi);
 	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
 	procedure ambilTanggal(formatString : string; var x : tanggal);
 	{ I.S	: tanggal masih dalam format dd//mm/yyyy
 	* F.S	: tanggal sudah dalam bentuk record tanggal}
 	
+	{######################################################}
+	{**********KELOMPOK SUBPROGRAM UNTUK SIMULASI**********}
+	{######################################################}
+	
+	{**********KELOMPOK SUBPROGRAM FITUR TIDUR**********}
+
 	procedure checkEnergi(E : integer; var sleep : boolean);
 	{Mengecek apakah energi sudah habis}
 	
@@ -107,8 +122,13 @@ interface
 	procedure activity(var energy : integer;var Mentah : tabelBahanMentah;var Olahan : tabelBahanOlahan;var stop : boolean;var sleep : boolean);
 	{Prosedur aktivitas hari ini}
 	
+	
 implementation
 
+	{################################################################}
+	{*** KELOMPOK SUBPROGRAM UNTUK MELOAD DATA DARI FILE EKSTERNAL***}
+	{################################################################}
+	
 	procedure mainLoad(nf_bahanMentah : string; nf_bahanOlahan:string; nf_resep : string; nf_simulasi : string;
 		var T1 : tabelBahanMentah; var T2 : tabelBahanOlahan; var T3 : tabelResep; var T4 : tabelSimulasi);
 	{ I.S	: semua data belum terupload dari file eksternal	ket* : nf=nama file
@@ -118,7 +138,9 @@ implementation
 		loadFileBahanOlahan(nf_bahanOlahan, T2);
 		loadFileResep(nf_resep, T3);
 		loadFileSimulasi(nf_simulasi, T4);
-		writeln('BERHASIL : File Selesai diupload');
+		writeln('BERHASIL : File Selesai diupload.');
+		writeln('---------------------------------');
+		writeln();
 	end;
 
 	procedure ambilBaris(baris : string; var dataTemp : tabelString);
@@ -141,7 +163,7 @@ implementation
 	
 	procedure loadFileBahanMentah(namaFile : string; var T : tabelBahanMentah);
 	{ I.S	: "T" kosong
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	{KAMUS LOKAL}
 	var
 		fin 	: text;
@@ -174,7 +196,7 @@ implementation
 	
 	procedure loadFileBahanOlahan(namaFile : string; var T : tabelBahanOlahan);
 	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	{KAMUS LOKAL}
 	var
 		fin 	: text;
@@ -211,7 +233,7 @@ implementation
 	
 	procedure loadFileResep(namaFile : string; var T : tabelResep);
 	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	{KAMUS LOKAL}
 	var
 		fin 	: text;
@@ -248,9 +270,7 @@ implementation
 	
 	procedure loadFileSimulasi(namaFile : string; var T : tabelSimulasi);
 	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
-	{ I.S	: "T" kosong, baris masih full
-	* F.S	: "T[i]" terisi oleh tiap baris dari file "namaFile"}
+	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	{KAMUS LOKAL}
 	var
 		fin 	: text;
@@ -268,7 +288,7 @@ implementation
 		else
 		begin
 			i:= 1;
-			while (not(EOF(FIN))) do
+			while (not(EOF(fin))) do
 			begin
 				readln(fin,baris);
 				ambilBaris(baris,dataTemp);
@@ -294,29 +314,19 @@ implementation
 	{ I.S	: tanggal masih dalam format dd//mm/yyyy
 	* F.S	: tanggal sudah dalam bentuk record tanggal}
 	var
-		i	: integer;
-		s	: string;
+		error	: integer;
 	begin
-	i:=1;
-		repeat
-		str(x.hari,s);
-		val((s+formatString[i]),x.hari);
-		i:=i+1;
-		until formatString[i]='/';
-		i:=i+1;
-		repeat
-		str(x.bulan,s);
-		val((s+formatString[i]),x.bulan);
-		i:=i+1;
-		until formatString[i]='/';
-		i:=i+1;
-		repeat
-		str(x.tahun,s);
-		val((s+formatString[i]),x.tahun);
-		i:=i+1;
-		until i>length(formatString);
+		val(copy(formatString,1,2),x.hari,error);
+		val(copy(formatString,4,2),x.hari,error);
+		val(copy(formatString,7,4),x.hari,error);
 	end;
 	
+	{######################################################}
+	{**********KELOMPOK SUBPROGRAM UNTUK SIMULASI**********}
+	{######################################################}
+	
+	{**********KELOMPOK SUBPROGRAM FITUR TIDUR*********}
+
 	procedure checkEnergi(E : integer; var sleep : boolean);
 	begin
 		if (E<=0) then
@@ -327,7 +337,7 @@ implementation
 		else
 		writeln('Masukkan perintah: (tidur/beliBahan/stopSimulasi) ');
 	end;
-	
+
 	procedure resetDay(var sleep : boolean;var tgl : tanggal;var energy : integer;var hariHidup : integer);
 	begin
 		sleep:=false;
@@ -367,5 +377,6 @@ implementation
 		else
 			writeln('Pilihan Salah!');
 	end;
-
+	
+	
 end.
