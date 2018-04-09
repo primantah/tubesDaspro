@@ -279,7 +279,7 @@ implementation
 		else
 		begin
 			i:= 1;
-			while (not(EOF(FIN))) do
+			while (not(EOF(fin))) do
 			begin
 				readln(fin,baris);
 				ambilBaris(baris,dataTemp);
