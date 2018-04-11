@@ -2,13 +2,15 @@ unit uF3_startSimulasi;
 
 interface
 
-uses uP1_tipeBentukan, uP2_pesan, uF4_stopSimulasi, uF11_tidur;
+uses uP1_tipeBentukan, uP2_pesan, uF4_stopSimulasi, uF11_tidur, uF5_beliBahan;
 
 	procedure mainStartSimulasi(ID : integer;
 									var dataBahanMentah : tabelBahanMentah; 
 									var dataBahanOlahan : tabelBahanOlahan; 
 									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi);	
+									var dataSimulasi : tabelSimulasi;
+									var dataInventoriBahanMentah: tabelBahanMentah; 
+									var dataInventoriBahanOlahan: tabelBahanOlahan);	
 	{memberikan prompt kepada user untuk memasukkan perintah dan melaksanakan perintah tersebut}
 									
 	function lelah(dataSimulasi : tabelSimulasi; ID : integer):boolean;
@@ -20,7 +22,9 @@ implementation
 									var dataBahanMentah : tabelBahanMentah; 
 									var dataBahanOlahan : tabelBahanOlahan; 
 									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi);
+									var dataSimulasi : tabelSimulasi;
+									var dataInventoriBahanMentah: tabelBahanMentah; 
+									var dataInventoriBahanOlahan: tabelBahanOlahan);	
 	{memberikan prompt kepada user untuk memasukkan perintah dan melaksanakan perintah tersebut}
 	{KAMUS LOKAL}
 	var 
@@ -49,9 +53,9 @@ implementation
 				'lihatResep'		: mainLihatResep(dataResep, ID);
 				'cariResep'			: mainCariResep(dataResep, ID);
 				'tambahResep'		: mainTambahResep(dataResep, dataBahanOlahan, dataBahanMentah, ID);
-				'upgradeInventori' 	: mainUpgradeInventori(dataSimulasi, ID);
-				'beliBahan'			: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataOlahan, ID) else mainBeliBahan();
-				'olahBahan' 		: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataOlahan, ID) else mainOlahBahan();
+				'upgradeInventori' 	: mainUpgradeInventori(dataSimulasi, ID);*)
+				'beliBahan'			: mainBeliBahan(ID, dataBahanMentah, dataSimulasi, dataInventoriBahanMentah);
+				(*'olahBahan' 		: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataOlahan, ID) else mainOlahBahan();
 				'jualOlahan'		: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataOlahan, ID) else mainJualOlahan();
 				'jualResep'			: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataOlahan, ID) else mainJualResep();
 				'makan'				: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataOlahan, ID) else mainMakan();
