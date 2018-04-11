@@ -64,6 +64,7 @@ implementation
 			end;
 		end;
 		
+		inventoriBahanMentah.banyakItem:= inventoriBahanMentah.banyakItem+1; 
 		dataSimulasi.itemKe[ID].totalPengeluaran:= dataBahanMentah.itemKe[i].hargaBeli*kuantitas;
 		dataSimulasi.itemKe[ID].jumlahEnergi := dataSimulasi.itemKe[ID].jumlahEnergi-1;
 	end;
