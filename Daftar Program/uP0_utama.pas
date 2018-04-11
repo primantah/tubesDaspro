@@ -17,6 +17,8 @@ var
 	dataBahanOlahan	: tabelBahanOlahan;
 	dataResep		: tabelResep;
 	dataSimulasi	: tabelSimulasi;
+	dataInventoriBahanMentah : tabelBahanMentah;
+	dataInventoriBahanOlahan : tabelBahanOlahan;
 
 {ALGORITMA UTAMA}
 begin
@@ -43,7 +45,7 @@ begin
 				begin
 					val(copy(perintah,pos(' ',perintah)+1,length(perintah)) , ID, error); 
 					perintah := 'start';
-					//mainStartSimulasi(ID, dataBahanMentah, dataBahanOlahan, dataResep, dataSimulasi);
+					mainStartSimulasi(ID, dataBahanMentah, dataBahanOlahan, dataResep, dataSimulasi, dataInventoriBahanMentah, dataInventoriBahanOlahan);
 				end
 				else {perintah "load" belum dijalankan}
 					shoutWarning('belumLoad');
@@ -52,3 +54,4 @@ begin
 	until (programSelesai);
 	readln();
 end.
+
