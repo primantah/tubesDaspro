@@ -1,4 +1,4 @@
-unit uF10_namaTemplate; //Ganti : sesuaikan dengan nama file, tapi tanpa ".pas"
+unit uF0_namaTemplate; //Ganti : sesuaikan dengan nama file, tapi tanpa ".pas"
 
 interface
 
@@ -8,7 +8,9 @@ uses uP1_tipeBentukan, uP3_Umum;
 									var dataBahanMentah : tabelBahanMentah; 
 									var dataBahanOlahan : tabelBahanOlahan; 
 									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); 
+									var dataSimulasi : tabelSimulasi
+									var dataInventoriBahanMentah : tabelBahanMentah
+									var dataInventoriBahanOlahan : tabelBahanOlahan); 
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
 	
@@ -16,7 +18,9 @@ uses uP1_tipeBentukan, uP3_Umum;
 									var dataBahanMentah : tabelBahanMentah; 
 									var dataBahanOlahan : tabelBahanOlahan; 
 									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
+									var dataSimulasi : tabelSimulasi
+									var dataInventoriBahanMentah : tabelBahanMentah
+									var dataInventoriBahanOlahan : tabelBahanOlahan);
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
 
@@ -26,7 +30,9 @@ implementation
 									var dataBahanMentah : tabelBahanMentah; 
 									var dataBahanOlahan : tabelBahanOlahan; 
 									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); 
+									var dataSimulasi : tabelSimulasi
+									var dataInventoriBahanMentah : tabelBahanMentah
+									var dataInventoriBahanOlahan : tabelBahanOlahan); 
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
 	
@@ -34,7 +40,9 @@ implementation
 									var dataBahanMentah : tabelBahanMentah; 
 									var dataBahanOlahan : tabelBahanOlahan; 
 									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
+									var dataSimulasi : tabelSimulasi
+									var dataInventoriBahanMentah : tabelBahanMentah
+									var dataInventoriBahanOlahan : tabelBahanOlahan);
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}	
 
