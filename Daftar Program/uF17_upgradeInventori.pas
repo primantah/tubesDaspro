@@ -14,8 +14,12 @@ implementation
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
 	begin
-		dataSimulasi.kapasitasMaxInventori:=dataSimulasi.kapasitasMaxInventori+25;
-		dataSimulasi.jumlahDuit:=dataSimulasi.jumlahDuit-25;
+		if (dataSimulasi.jumlahDuit<25) then
+		begin
+			writeln('Maaf, duit anda tidak cukup untuk upgrade inventori!');
+		end else
+			dataSimulasi.kapasitasMaxInventori:=dataSimulasi.kapasitasMaxInventori+25;
+			dataSimulasi.jumlahDuit:=dataSimulasi.jumlahDuit-25;
 	end;
 
 end.
