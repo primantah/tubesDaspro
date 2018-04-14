@@ -1,10 +1,6 @@
-unit upesan;
+unit uP2_pesan;
 
 interface
-	
-	{######################################################################}
-	{**********KELOMPOK SUBPROGRAM ANTARMUKA DAN PESAN KESALAHAN***********}
-	{######################################################################}
 	
 	procedure shoutWarning(kodePesan : string);
 	{Menampilkan peringatan pesan kesalahan berdasarkan kodePesan}
@@ -13,10 +9,6 @@ interface
 	{Menampilkan tampilan menu berdasarkan kodeMenu}
 	
 implementation
-
-	{######################################################################}
-	{**********KELOMPOK SUBPROGRAM ANTARMUKA DAN PESAN KESALAHAN***********}
-	{######################################################################}
 	
 	procedure shoutWarning(kodePesan : string);
 	{Menampilkan peringatan pesan kesalahan berdasarkan kodePesan}
@@ -34,6 +26,11 @@ implementation
 								writeln('-----------------------------------------------------------------');
 								writeln();
 							  end;
+			'exitProgram'	: begin
+								writeln('Terima kasih telah menggunakan jasa kami!');
+								writeln('Sampai berjumpa di lain waktu!');
+								writeln('Tekan "enter" untuk mengakhiri program');
+							  end;
 		end;
 	end;
 	
@@ -45,7 +42,7 @@ implementation
 								writeln('Berikut pilihan perintah yang dapat anda masukkan pada prompt :');
 								writeln('1. load');
 								writeln('2. exit');
-								writeln('3. start');
+								writeln('3. start i (i=id simulasi yang diinginkan');
 								writeln('4. lihatInventori');
 								writeln('5. lihatResep');
 								writeln('6. cariResep');
@@ -72,6 +69,12 @@ implementation
 								writeln('13. tambahResep');
 								writeln('14. upgradeInventori');
 								writeln('Masukkan perintah anda setelah tanda ">> "');
+							  end;
+			'awal'			: begin
+									writeln('----------------------------------------');
+									writeln('----PROGRAM SIMULASI ENGI''S KITCHEN----');
+									writeln('----------------------------------------');
+									writeln();
 							  end;
 		end;
 	end;

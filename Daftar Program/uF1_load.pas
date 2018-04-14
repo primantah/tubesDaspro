@@ -1,85 +1,11 @@
-unit uload;
-
+unit uF1_load;
 
 interface
 
-	{###########################}
-	{*** ABSTRACT DATA TYPE *** }
-	{###########################}
-	
-	const NMax = 1000;
-	type tanggal = record
-			hari	: integer;
-			bulan	: integer;
-			tahun	: integer;
-		end;
-	type bahanMentah = record
-			nama				: string;
-			hargaBeli			: integer;
-			durasiKadaluarsa	: integer;
-			tanggalBeli			: tanggal;
-			jumlahTersedia		: integer;
-		end;
-	type bahanOlahan = record
-			nama			: string;
-			hargaJual		: integer;
-			banyakBahanBaku	: integer;
-			bahanBaku		: array[1..NMax] of string;
-			tanggalBuat		: tanggal;
-			jumlahTersedia	: integer;
-		end;
-	type resep = record
-			nama		: string;
-			hargaJual	: integer;
-			banyakBahan	: integer;
-			bahan		: array[1..NMax] of string;
-		end;
-	type simulasi = record
-			nomor					: integer;
-			tanggalSimulasi			: tanggal;
-			jumlahHariHidup			: integer;
-			jumlahEnergi			: integer;
-			kapasitasMaxInventori	: integer;
-			totalBahanMentahDibeli	: integer;
-			totalBahanOlahanDibuat	: integer;
-			totalBahanOlahanDijual	: integer;
-			totalResepDijual		: integer;
-			totalPemasukan			: integer;
-			totalPengeluaran		: integer;
-			totalPendapatan			: integer;
-		end;
-	
-	type tabelInteger		= record
-			itemKe		: array [1..NMax] of integer;
-			banyakItem	: integer;
-		end;
-	type tabelString		= record
-			itemKe		: array [1..NMax] of string;
-			banyakItem	: integer;
-		end;
-	type tabelBahanMentah	= record
-			itemKe		: array [1..NMax] of bahanMentah;
-			banyakItem	: integer;
-		end;
-	type tabelBahanOlahan	= record
-			itemKe		: array [1..NMax] of bahanOlahan;
-			banyakItem	: integer;
-		end;
-	type tabelResep			= record
-			itemKe		: array [1..NMax] of resep;
-			banyakItem	: integer;
-		end;
-	type tabelSimulasi		= record
-			itemKe		: array [1..NMax] of simulasi;
-			banyakItem	: integer;
-		end;
-	
-	{################################################################}
-	{*** KELOMPOK SUBPROGRAM UNTUK MELOAD DATA DARI FILE EKSTERNAL***}
-	{################################################################}
+uses uP1_tipeBentukan,uP3_umum;
 	
 	procedure mainLoad(nf_bahanMentah : string; nf_bahanOlahan:string; nf_resep : string; nf_simulasi : string;
-		var T1 : tabelBahanMentah; var T2 : tabelBahanOlahan; var T3 : tabelResep; var T4 : tabelSimulasi);
+		var T1 : tabelBahanMentah; var T2 : tabelBahanOlahan; var T3 : tabelResep; var T4 : tabelSimulasi; var loaded : boolean);
 	{ I.S	: semua data belum terupload dari file eksternal	ket* : nf=nama file
 	* F.S	: semua data telah terupload dari file eksternal}
 
@@ -103,6 +29,7 @@ interface
 	{ I.S	: "T" kosong, baris masih full
 	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
+<<<<<<< HEAD:Daftar Program/uload.pas
 	procedure ambilTanggal(formatString : string; var x : tanggal);
 	{ I.S	: tanggal masih dalam format dd//mm/yyyy
 	* F.S	: tanggal sudah dalam bentuk record tanggal}
@@ -122,15 +49,21 @@ interface
 	procedure activity(var energy : integer;var Mentah : tabelBahanMentah;var Olahan : tabelBahanOlahan;var stop : boolean;var sleep : boolean);
 	{Prosedur aktivitas hari ini}
 	
+	procedure beliBahan(var energy : integer;var Mentah : tabelBahanMentah);
+	{Prosedur Membeli Bahan Mentah}
 	
+	procedure tidur(var energy : integer;var sleep : boolean);
+	{Prosedur untuk tidur}
+	
+	
+=======
+>>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas
 implementation
 
-	{################################################################}
-	{*** KELOMPOK SUBPROGRAM UNTUK MELOAD DATA DARI FILE EKSTERNAL***}
-	{################################################################}
-	
+uses uP2_pesan;
+
 	procedure mainLoad(nf_bahanMentah : string; nf_bahanOlahan:string; nf_resep : string; nf_simulasi : string;
-		var T1 : tabelBahanMentah; var T2 : tabelBahanOlahan; var T3 : tabelResep; var T4 : tabelSimulasi);
+		var T1 : tabelBahanMentah; var T2 : tabelBahanOlahan; var T3 : tabelResep; var T4 : tabelSimulasi; var loaded : boolean);
 	{ I.S	: semua data belum terupload dari file eksternal	ket* : nf=nama file
 	* F.S	: semua data telah terupload dari file eksternal}
 	begin
@@ -138,6 +71,7 @@ implementation
 		loadFileBahanOlahan(nf_bahanOlahan, T2);
 		loadFileResep(nf_resep, T3);
 		loadFileSimulasi(nf_simulasi, T4);
+		loaded:=true;
 		writeln('BERHASIL : File Selesai diupload.');
 		writeln('---------------------------------');
 		writeln();
@@ -309,16 +243,33 @@ implementation
 			T.banyakItem := i-1;
 		end;
 	end;
+<<<<<<< HEAD:Daftar Program/uload.pas
 	
 	procedure ambilTanggal(formatString : string; var x : tanggal);
 	{ I.S	: tanggal masih dalam format dd//mm/yyyy
 	* F.S	: tanggal sudah dalam bentuk record tanggal}
 	var
-		error	: integer;
+		i	: integer;
+		s	: string;
 	begin
-		val(copy(formatString,1,2),x.hari,error);
-		val(copy(formatString,4,2),x.hari,error);
-		val(copy(formatString,7,4),x.hari,error);
+			i:=1;
+		repeat
+		str(x.hari,s);
+		val((s+formatString[i]),x.hari);
+		i:=i+1;
+		until formatString[i]='/';
+		i:=i+1;
+		repeat
+		str(x.bulan,s);
+		val((s+formatString[i]),x.bulan);
+		i:=i+1;
+		until formatString[i]='/';
+		i:=i+1;
+		repeat
+		str(x.tahun,s);
+		val((s+formatString[i]),x.tahun);
+		i:=i+1;
+		until i>length(formatString);
 	end;
 	
 	{######################################################}
@@ -351,7 +302,27 @@ implementation
 		p, s : string;
 		i : integer;
 	begin
-		readln(p);
+		write('>> '); readln(p);
+		case (p) of
+			'stopSimulasi'		: stopSimulasi:=true;
+			'beliBahan'			: beliBahan(energy,Mentah);
+			(*'olahBahan'			: olahBahan();
+			'jualOlahan'		: jualOlahan();
+			'jualResep'			: jualResep();
+			'makan'				: makan();
+			'istirahat'			: istirahat();*)
+			'tidur'				: tidur(energy,sleep);
+			(*'lihatStatistik'	: lihatStatistik();
+			'lihatInventori'	: lihatInventori();
+			'lihatResep'		: lihatResep();
+			'cariResep'			: cariResep();
+			'tambahResep'		: tambahResep();
+			'upgradeInventori'	: upgradeInventori();*)
+		else
+			shoutWarning('salahPerintah');
+	end;
+		
+	{THISSSVVVVVVVVV}
 		if p='beliBahan' then
 		begin
 			s:=copy(p,pos(' ',p)+1,length(p));
@@ -379,4 +350,6 @@ implementation
 	end;
 	
 	
+=======
+>>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas
 end.

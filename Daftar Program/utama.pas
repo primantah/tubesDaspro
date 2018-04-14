@@ -11,7 +11,6 @@ var
 	ID				: integer; //nomor simulasi
 	loaded			: boolean;
 	programSelesai	: boolean;
-	sleep			: boolean;
 	
 	{Array penyimpan}
 	dataBahanMentah	: tabelBahanMentah;
@@ -20,9 +19,10 @@ var
 	dataSimulasi	: tabelSimulasi;
 
 {Daftar prosedur}
-procedure startSimulasi(ID	: integer);
+procedure startSimulasi(ID	: integer; var dataBahanMentah : tabelBahanMentah; var dataBahanOlahan : tabelBahanOlahan; var dataResep : tabelResep; var dataSimulasi : tabelSimulasi);
 var
 	stopSimulasi : boolean;
+	sleep		 : boolean;
 begin
 	stopSimulasi := false;
 	tampilkanMenu('startSimulasi');
@@ -49,28 +49,6 @@ begin
 					until stopSimulasi=true;
 					
 				{Simulasi Berakhir}	
-	repeat
-		write('>> '); readln(perintah);
-		(*
-		case (perintah) of
-			'stopSimulasi'		: stopSimulasi:=true;
-			'beliBahan'			: beliBahan();
-			'olahBahan'			: olahBahan();
-			'jualOlahan'		: jualOlahan();
-			'jualResep'			: jualResep();
-			'makan'				: makan();
-			'istirahat'			: istirahat();
-			'tidur'				: tidur();
-			'lihatStatistik'	: lihatStatistik();
-			'lihatInventori'	: lihatInventori();
-			'lihatResep'		: lihatResep();
-			'cariResep'			: cariResep();
-			'tambahResep'		: tambahResep();
-			'upgradeInventori'	: upgradeInventori();
-		else
-			shoutWarning('salahPerintah');
-		end;*)
-	until (stopSimulasi);
 end;
 
 {ALGORITMA UTAMA}
@@ -112,6 +90,7 @@ begin
 					begin
 						val(copy(perintah,pos(' ',perintah)+1,length(perintah)) , ID, error); //Baris 43 : mengambil bagian angka dari string(perintah) dan memasukkannya ke variabel(ID)
 						perintah := 'start';
+						if ID = 0 then ID:=1;
 						//startSimulasi(ID); //TO DO : Bikin procedure startSimulasi (checklist : x)
 					end
 					else {perintah "load" belum dijalankan}
