@@ -1,6 +1,6 @@
 unit uP1_tipeBentukan;
 interface
-	const NMax = 1000;
+	const NMax = 100;{usahakan jangan terlalu besar NMax-nya, laptopku ngga kuat :p -oksi (stack overflow)}
 	type tanggal = record
 			hari	: integer;
 			bulan	: integer;

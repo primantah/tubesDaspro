@@ -42,7 +42,7 @@ implementation
 		else
 		begin
 		
-			modal := 20000+dataSimulasi.itemKe[ID].totalPemasukan-dataSimulasi.itemKe[ID].totalPengeluaran;
+			modal := dataSimulasi.itemKe[ID].jumlahDuit;
 			
 			if(modal>=dataBahanMentah.itemKe[i].hargaBeli*kuantitas) then
 			begin
@@ -57,6 +57,7 @@ implementation
 					updateTanggal(inventoriBahanMentah.itemKe[index].tanggalBeli);
 				end;
 				inventoriBahanMentah.itemKe[index].jumlahTersedia := kuantitas;
+				dataSimulasi.itemKe[ID].jumlahDuit:=dataSimulasi.itemKe[ID].jumlahDuit-dataBahanMentah.itemKe[i].hargaBeli*kuantitas;
 			end else
 			begin
 				writeln('Total harga: ', dataBahanMentah.itemKe[i].hargaBeli*kuantitas);
