@@ -29,6 +29,7 @@ uses uP1_tipeBentukan,uP3_umum;
 	{ I.S	: "T" kosong, baris masih full
 	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
+<<<<<<< HEAD:Daftar Program/uF1_load.pas
 <<<<<<< HEAD:Daftar Program/uload.pas
 	procedure ambilTanggal(formatString : string; var x : tanggal);
 	{ I.S	: tanggal masih dalam format dd//mm/yyyy
@@ -56,6 +57,8 @@ uses uP1_tipeBentukan,uP3_umum;
 	{Prosedur untuk tidur}
 	
 	
+=======
+>>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas
 =======
 >>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas
 implementation
@@ -243,6 +246,7 @@ uses uP2_pesan;
 			T.banyakItem := i-1;
 		end;
 	end;
+<<<<<<< HEAD:Daftar Program/uF1_load.pas
 <<<<<<< HEAD:Daftar Program/uload.pas
 	
 	procedure ambilTanggal(formatString : string; var x : tanggal);
@@ -350,6 +354,8 @@ uses uP2_pesan;
 	end;
 	
 	
+=======
+>>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas
 =======
 >>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas
 end.
