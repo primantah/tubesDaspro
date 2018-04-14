@@ -29,6 +29,30 @@ uses uP1_tipeBentukan,uP3_umum;
 	{ I.S	: "T" kosong, baris masih full
 	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
+(*<<<<<<< HEAD:Daftar Program/uF1_load.pas
+<<<<<<< HEAD:Daftar Program/uload.pas*)
+	procedure ambilTanggal(formatString : string; var x : tanggal);
+	{ I.S	: tanggal masih dalam format dd//mm/yyyy
+	* F.S	: tanggal sudah dalam bentuk record tanggal}
+	
+	{######################################################}
+	{**********KELOMPOK SUBPROGRAM UNTUK SIMULASI**********}
+	{######################################################}
+	
+	{**********KELOMPOK SUBPROGRAM FITUR TIDUR**********}
+
+	procedure checkEnergi(E : integer; var sleep : boolean);
+	{Mengecek apakah energi sudah habis}
+	
+	procedure resetDay(var sleep : boolean;var tgl : tanggal;var energy : integer;var hariHidup : integer);
+	{Prosedur Me-reset Hari}
+	
+	
+(*	
+=======
+>>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas
+=======
+>>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas*)
 implementation
 
 uses uP2_pesan;
@@ -214,4 +238,65 @@ uses uP2_pesan;
 			T.banyakItem := i-1;
 		end;
 	end;
+	(*
+<<<<<<< HEAD:Daftar Program/uF1_load.pas
+<<<<<<< HEAD:Daftar Program/uload.pas*)
+	
+	procedure ambilTanggal(formatString : string; var x : tanggal);
+	{ I.S	: tanggal masih dalam format dd//mm/yyyy
+	* F.S	: tanggal sudah dalam bentuk record tanggal}
+	var
+		i	: integer;
+		s	: string;
+	begin
+			i:=1;
+		repeat
+		str(x.hari,s);
+		val((s+formatString[i]),x.hari);
+		i:=i+1;
+		until formatString[i]='/';
+		i:=i+1;
+		repeat
+		str(x.bulan,s);
+		val((s+formatString[i]),x.bulan);
+		i:=i+1;
+		until formatString[i]='/';
+		i:=i+1;
+		repeat
+		str(x.tahun,s);
+		val((s+formatString[i]),x.tahun);
+		i:=i+1;
+		until i>length(formatString);
+	end;
+	
+	{######################################################}
+	{**********KELOMPOK SUBPROGRAM UNTUK SIMULASI**********}
+	{######################################################}
+	
+	{**********KELOMPOK SUBPROGRAM FITUR TIDUR*********}
+
+	procedure checkEnergi(E : integer; var sleep : boolean);
+	begin
+		if (E<=0) then
+			begin
+				writeln('Energi habis! Chef akan tidur...');
+				sleep:=true;
+			end
+		else
+		writeln('Masukkan perintah: (tidur/beliBahan/stopSimulasi) ');
+	end;
+
+	procedure resetDay(var sleep : boolean;var tgl : tanggal;var energy : integer;var hariHidup : integer);
+	begin
+		sleep:=false;
+		tgl.hari:=tgl.hari+1; {Bagian ini harus diperbaiki agar sesuai sistem kalendar}
+		energy:=10;
+		hariHidup:=hariHidup+1;
+	end;
+	
+	(*
+=======
+>>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas
+=======
+>>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas*)
 end.
