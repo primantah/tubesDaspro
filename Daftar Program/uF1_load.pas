@@ -1,85 +1,11 @@
-unit uload;
-
+unit uF1_load;
 
 interface
 
-	{###########################}
-	{*** ABSTRACT DATA TYPE *** }
-	{###########################}
-	
-	const NMax = 1000;
-	type tanggal = record
-			hari	: integer;
-			bulan	: integer;
-			tahun	: integer;
-		end;
-	type bahanMentah = record
-			nama				: string;
-			hargaBeli			: integer;
-			durasiKadaluarsa	: integer;
-			tanggalBeli			: tanggal;
-			jumlahTersedia		: integer;
-		end;
-	type bahanOlahan = record
-			nama			: string;
-			hargaJual		: integer;
-			banyakBahanBaku	: integer;
-			bahanBaku		: array[1..NMax] of string;
-			tanggalBuat		: tanggal;
-			jumlahTersedia	: integer;
-		end;
-	type resep = record
-			nama		: string;
-			hargaJual	: integer;
-			banyakBahan	: integer;
-			bahan		: array[1..NMax] of string;
-		end;
-	type simulasi = record
-			nomor					: integer;
-			tanggalSimulasi			: tanggal;
-			jumlahHariHidup			: integer;
-			jumlahEnergi			: integer;
-			kapasitasMaxInventori	: integer;
-			totalBahanMentahDibeli	: integer;
-			totalBahanOlahanDibuat	: integer;
-			totalBahanOlahanDijual	: integer;
-			totalResepDijual		: integer;
-			totalPemasukan			: integer;
-			totalPengeluaran		: integer;
-			totalPendapatan			: integer;
-		end;
-	
-	type tabelInteger		= record
-			itemKe		: array [1..NMax] of integer;
-			banyakItem	: integer;
-		end;
-	type tabelString		= record
-			itemKe		: array [1..NMax] of string;
-			banyakItem	: integer;
-		end;
-	type tabelBahanMentah	= record
-			itemKe		: array [1..NMax] of bahanMentah;
-			banyakItem	: integer;
-		end;
-	type tabelBahanOlahan	= record
-			itemKe		: array [1..NMax] of bahanOlahan;
-			banyakItem	: integer;
-		end;
-	type tabelResep			= record
-			itemKe		: array [1..NMax] of resep;
-			banyakItem	: integer;
-		end;
-	type tabelSimulasi		= record
-			itemKe		: array [1..NMax] of simulasi;
-			banyakItem	: integer;
-		end;
-	
-	{################################################################}
-	{*** KELOMPOK SUBPROGRAM UNTUK MELOAD DATA DARI FILE EKSTERNAL***}
-	{################################################################}
+uses uP1_tipeBentukan,uP3_umum;
 	
 	procedure mainLoad(nf_bahanMentah : string; nf_bahanOlahan:string; nf_resep : string; nf_simulasi : string;
-		var T1 : tabelBahanMentah; var T2 : tabelBahanOlahan; var T3 : tabelResep; var T4 : tabelSimulasi);
+		var T1 : tabelBahanMentah; var T2 : tabelBahanOlahan; var T3 : tabelResep; var T4 : tabelSimulasi; var loaded : boolean);
 	{ I.S	: semua data belum terupload dari file eksternal	ket* : nf=nama file
 	* F.S	: semua data telah terupload dari file eksternal}
 
@@ -103,34 +29,12 @@ interface
 	{ I.S	: "T" kosong, baris masih full
 	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
-	procedure ambilTanggal(formatString : string; var x : tanggal);
-	{ I.S	: tanggal masih dalam format dd//mm/yyyy
-	* F.S	: tanggal sudah dalam bentuk record tanggal}
-	
-	{######################################################}
-	{**********KELOMPOK SUBPROGRAM UNTUK SIMULASI**********}
-	{######################################################}
-	
-	{**********KELOMPOK SUBPROGRAM FITUR TIDUR**********}
-
-	procedure checkEnergi(E : integer; var sleep : boolean);
-	{Mengecek apakah energi sudah habis}
-	
-	procedure resetDay(var sleep : boolean;var tgl : tanggal;var energy : integer;var hariHidup : integer);
-	{Prosedur Me-reset Hari}
-	
-	procedure activity(var energy : integer;var Mentah : tabelBahanMentah;var Olahan : tabelBahanOlahan;var stop : boolean;var sleep : boolean);
-	{Prosedur aktivitas hari ini}
-	
-	
 implementation
 
-	{################################################################}
-	{*** KELOMPOK SUBPROGRAM UNTUK MELOAD DATA DARI FILE EKSTERNAL***}
-	{################################################################}
-	
+uses uP2_pesan;
+
 	procedure mainLoad(nf_bahanMentah : string; nf_bahanOlahan:string; nf_resep : string; nf_simulasi : string;
-		var T1 : tabelBahanMentah; var T2 : tabelBahanOlahan; var T3 : tabelResep; var T4 : tabelSimulasi);
+		var T1 : tabelBahanMentah; var T2 : tabelBahanOlahan; var T3 : tabelResep; var T4 : tabelSimulasi; var loaded : boolean);
 	{ I.S	: semua data belum terupload dari file eksternal	ket* : nf=nama file
 	* F.S	: semua data telah terupload dari file eksternal}
 	begin
@@ -138,6 +42,7 @@ implementation
 		loadFileBahanOlahan(nf_bahanOlahan, T2);
 		loadFileResep(nf_resep, T3);
 		loadFileSimulasi(nf_simulasi, T4);
+		loaded:=true;
 		writeln('BERHASIL : File Selesai diupload.');
 		writeln('---------------------------------');
 		writeln();
@@ -309,74 +214,4 @@ implementation
 			T.banyakItem := i-1;
 		end;
 	end;
-	
-	procedure ambilTanggal(formatString : string; var x : tanggal);
-	{ I.S	: tanggal masih dalam format dd//mm/yyyy
-	* F.S	: tanggal sudah dalam bentuk record tanggal}
-	var
-		error	: integer;
-	begin
-		val(copy(formatString,1,2),x.hari,error);
-		val(copy(formatString,4,2),x.hari,error);
-		val(copy(formatString,7,4),x.hari,error);
-	end;
-	
-	{######################################################}
-	{**********KELOMPOK SUBPROGRAM UNTUK SIMULASI**********}
-	{######################################################}
-	
-	{**********KELOMPOK SUBPROGRAM FITUR TIDUR*********}
-
-	procedure checkEnergi(E : integer; var sleep : boolean);
-	begin
-		if (E<=0) then
-			begin
-				writeln('Energi habis! Chef akan tidur...');
-				sleep:=true;
-			end
-		else
-		writeln('Masukkan perintah: (tidur/beliBahan/stopSimulasi) ');
-	end;
-
-	procedure resetDay(var sleep : boolean;var tgl : tanggal;var energy : integer;var hariHidup : integer);
-	begin
-		sleep:=false;
-		tgl.hari:=tgl.hari+1; {Bagian ini harus diperbaiki agar sesuai sistem kalendar}
-		energy:=10;
-		hariHidup:=hariHidup+1;
-	end;
-	
-	procedure activity(var energy : integer;var Mentah : tabelBahanMentah;var Olahan : tabelBahanOlahan;var stop : boolean;var sleep : boolean);
-	var
-		p, s : string;
-		i : integer;
-	begin
-		readln(p);
-		if p='beliBahan' then
-		begin
-			s:=copy(p,pos(' ',p)+1,length(p));
-			i:=0;
-			repeat
-				i:=i+1;
-			until (Mentah.itemKe[i].nama=s) or (i>=Mentah.banyakItem);
-			if Mentah.itemKe[i].nama=s then
-				begin
-				Mentah.itemKe[i].jumlahTersedia:=Mentah.itemKe[i].jumlahTersedia+1;
-				energy:=energy-1;
-				end
-			else
-				writeln('Item Tidak Ditemukan!');
-		end
-		else if p='tidur' then
-			if energy=10 then
-			writeln('Anda tidak bisa tidur saat energi anda penuh!')
-			else
-			sleep:=true
-		else if p='stopSimulasi' then
-			stop:=true
-		else
-			writeln('Pilihan Salah!');
-	end;
-	
-	
 end.
