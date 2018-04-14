@@ -1,42 +1,37 @@
-unit uF10_namaTemplate; //Ganti : sesuaikan dengan nama file, tapi tanpa ".pas"
+unit uF9_makan; 
 
 interface
 
 uses uP1_tipeBentukan, uP3_Umum;
 
-	procedure mainNamaTemplate(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); 
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
-	
-	procedure contohProsedurPembantu(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	procedure mainMakan(var jmlMakan : integer;
+									var energy : integer);
+	{ I.S : jmlMakan = berapa kali makan hari ini, energy = energy hari ini
+	* F.S : jmlMakan = berapa kali makan hari ini+1, energy = energy hari ini+3}
 
 implementation
 
-	procedure mainNamaTemplate(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); 
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	procedure mainMakan(var jmlMakan : integer;
+									var energy : integer); 
+	{ I.S : jmlMakan = berapa kali makan hari ini, energy = energy hari ini
+	* F.S : jmlMakan = berapa kali makan hari ini+1, energy = energy hari ini+3}
+	begin
+		if energy >= 10 then
+			writeln('Energi anda masih penuh!')
+		else if jmlMakan>=3 then
+			writeln('Anda hanya bisa makan 3x sehari!')
+		else if energy >=7 then
+			begin
+			jmlMakan:=jmlMakan+1;
+			energy:=10;
+			end
+		else
+			begin
+			jmlMakan:=jmlMakan+1;
+			energy:=energy+3;
+			end;
+	end;
 	
-	procedure contohProsedurPembantu(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}	
 
 end.
 

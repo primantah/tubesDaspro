@@ -4,14 +4,14 @@ interface
 
 uses uP1_tipeBentukan, uP3_Umum;
 
-	procedure mainBeliBahan(ID : integer; dataBahanMentah: tabelBahanMentah; dataSimulasi: tabelSimulasi;//hapus parameter yang tidak perlu
+	procedure mainBeliBahan(ID : integer; dataBahanMentah: tabelBahanMentah;var dataSimulasi: tabelSimulasi;//hapus parameter yang tidak perlu
 									var inventoriBahanMentah : tabelBahanMentah );
 	{ Menjalankan fungsi beliBahan }
 	
 
 implementation
 
-	procedure mainBeliBahan(ID : integer; dataBahanMentah: tabelBahanMentah; dataSimulasi: tabelSimulasi;//hapus parameter yang tidak perlu
+	procedure mainBeliBahan(ID : integer; dataBahanMentah: tabelBahanMentah;var dataSimulasi: tabelSimulasi;//hapus parameter yang tidak perlu
 									var inventoriBahanMentah : tabelBahanMentah
 									);
 	var

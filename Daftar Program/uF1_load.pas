@@ -29,8 +29,8 @@ uses uP1_tipeBentukan,uP3_umum;
 	{ I.S	: "T" kosong, baris masih full
 	* F.S	: "T.itemKe[i]" terisi oleh tiap baris dari file "namaFile"}
 	
-<<<<<<< HEAD:Daftar Program/uF1_load.pas
-<<<<<<< HEAD:Daftar Program/uload.pas
+(*<<<<<<< HEAD:Daftar Program/uF1_load.pas
+<<<<<<< HEAD:Daftar Program/uload.pas*)
 	procedure ambilTanggal(formatString : string; var x : tanggal);
 	{ I.S	: tanggal masih dalam format dd//mm/yyyy
 	* F.S	: tanggal sudah dalam bentuk record tanggal}
@@ -47,20 +47,12 @@ uses uP1_tipeBentukan,uP3_umum;
 	procedure resetDay(var sleep : boolean;var tgl : tanggal;var energy : integer;var hariHidup : integer);
 	{Prosedur Me-reset Hari}
 	
-	procedure activity(var energy : integer;var Mentah : tabelBahanMentah;var Olahan : tabelBahanOlahan;var stop : boolean;var sleep : boolean);
-	{Prosedur aktivitas hari ini}
 	
-	procedure beliBahan(var energy : integer;var Mentah : tabelBahanMentah);
-	{Prosedur Membeli Bahan Mentah}
-	
-	procedure tidur(var energy : integer;var sleep : boolean);
-	{Prosedur untuk tidur}
-	
-	
+(*	
 =======
 >>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas
 =======
->>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas
+>>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas*)
 implementation
 
 uses uP2_pesan;
@@ -246,8 +238,9 @@ uses uP2_pesan;
 			T.banyakItem := i-1;
 		end;
 	end;
+	(*
 <<<<<<< HEAD:Daftar Program/uF1_load.pas
-<<<<<<< HEAD:Daftar Program/uload.pas
+<<<<<<< HEAD:Daftar Program/uload.pas*)
 	
 	procedure ambilTanggal(formatString : string; var x : tanggal);
 	{ I.S	: tanggal masih dalam format dd//mm/yyyy
@@ -301,61 +294,9 @@ uses uP2_pesan;
 		hariHidup:=hariHidup+1;
 	end;
 	
-	procedure activity(var energy : integer;var Mentah : tabelBahanMentah;var Olahan : tabelBahanOlahan;var stop : boolean;var sleep : boolean);
-	var
-		p, s : string;
-		i : integer;
-	begin
-		write('>> '); readln(p);
-		case (p) of
-			'stopSimulasi'		: stopSimulasi:=true;
-			'beliBahan'			: beliBahan(energy,Mentah);
-			(*'olahBahan'			: olahBahan();
-			'jualOlahan'		: jualOlahan();
-			'jualResep'			: jualResep();
-			'makan'				: makan();
-			'istirahat'			: istirahat();*)
-			'tidur'				: tidur(energy,sleep);
-			(*'lihatStatistik'	: lihatStatistik();
-			'lihatInventori'	: lihatInventori();
-			'lihatResep'		: lihatResep();
-			'cariResep'			: cariResep();
-			'tambahResep'		: tambahResep();
-			'upgradeInventori'	: upgradeInventori();*)
-		else
-			shoutWarning('salahPerintah');
-	end;
-		
-	{THISSSVVVVVVVVV}
-		if p='beliBahan' then
-		begin
-			s:=copy(p,pos(' ',p)+1,length(p));
-			i:=0;
-			repeat
-				i:=i+1;
-			until (Mentah.itemKe[i].nama=s) or (i>=Mentah.banyakItem);
-			if Mentah.itemKe[i].nama=s then
-				begin
-				Mentah.itemKe[i].jumlahTersedia:=Mentah.itemKe[i].jumlahTersedia+1;
-				energy:=energy-1;
-				end
-			else
-				writeln('Item Tidak Ditemukan!');
-		end
-		else if p='tidur' then
-			if energy=10 then
-			writeln('Anda tidak bisa tidur saat energi anda penuh!')
-			else
-			sleep:=true
-		else if p='stopSimulasi' then
-			stop:=true
-		else
-			writeln('Pilihan Salah!');
-	end;
-	
-	
+	(*
 =======
 >>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas
 =======
->>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas
+>>>>>>> b4445375edc2bf9cb66821cd90780567f74ed6a3:Daftar Program/uF1_load.pas*)
 end.
