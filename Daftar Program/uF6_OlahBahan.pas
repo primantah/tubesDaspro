@@ -1,43 +1,189 @@
-unit uF10_namaTemplate; //Ganti : sesuaikan dengan nama file, tapi tanpa ".pas"
+unit uF6_OlahBahan;
 
 interface
 
 uses uP1_tipeBentukan, uP3_Umum;
 
-	procedure mainNamaTemplate(ID : integer; //hapus parameter yang tidak perlu
+	procedure mainOlahBahan(ID : integer; //hapus parameter yang tidak perlu
 									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); 
+									var dataBahanOlahan : tabelBahanOlahan;  
+									var dataSimulasi : tabelSimulasi;
+									var inventoriBahanOlahan : tabelBahanOlahan); 
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
 	
-	procedure contohProsedurPembantu(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
+	procedure cariBM(var dataBahanMentah : tabelBahanMentah; 
+									var s : string;
+									var found : boolean;
+									var iBM : integer);
+	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
+	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	
+	procedure cekBM(var dataBahanMentah : tabelBahanMentah; 
+									var BO : bahanOlahan;
+									var found : boolean;
+									var q : boolean);
+	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
+	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	
+	procedure kurangiBM(var dataBahanMentah : tabelBahanMentah; 
+									var BO : bahanOlahan;
+									var found : boolean;
+									var q : boolean);
+	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
+	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	
+	procedure cariBO(var found : boolean; 
+									var iBO : integer;
+									var dataBahanOlahan : tabelBahanOlahan;
+									var s : string);
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
 
 implementation
 
-	procedure mainNamaTemplate(ID : integer; //hapus parameter yang tidak perlu
+	procedure mainOlahBahan(ID : integer; //hapus parameter yang tidak perlu
 									var dataBahanMentah : tabelBahanMentah; 
 									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); 
+									var dataSimulasi : tabelSimulasi;
+									var inventoriBahanOlahan : tabelBahanOlahan); 
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	var
+	found,q : boolean;
+	i, iBO, index, j : integer;
+	BO : bahanOlahan;
+	s : string;
 	
-	procedure contohProsedurPembantu(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
+	begin
+		writeln('Masukkan bahan yang ingin dibuat');
+		writeln('Bahan olahan yang tersedia: ');
+		for i:=1 to dataBahanOlahan.banyakItem do
+			begin
+			write(dataBahanOlahan.itemKe[i].nama,'<-- ');
+			for j:=1 to dataBahanOlahan.itemKe[i].banyakBahanBaku do
+			write(dataBahanOlahan.itemKe[i].bahanBaku[j],' ');
+			writeln();
+			end;
+		cariBO(found,iBO,dataBahanOlahan,s);
+		if (found) and (dataBahanOlahan.itemKe[iBO].jumlahTersedia<25) then
+			begin
+			BO:=dataBahanOlahan.itemKe[iBO];
+			cekBM(dataBahanMentah,BO,found,q);
+				if not(found) then
+					writeln('Bahan mentah tak ditemukan!')
+				else if not(q) then
+					writeln('Bahan mentah tak cukup!')
+				else
+					begin
+					kurangiBM(dataBahanMentah,BO,found,q);
+					index:= inventoriBahanOlahan.banyakItem+1;
+						{memasukan ke array inventoriBahanOlahan}
+						inventoriBahanOlahan.itemKe[index].nama := s;
+						{membuat tanggal kadaluarsa}
+						for j:= 1 to dataSimulasi.itemKe[ID].jumlahHariHidup do
+						begin
+							updateTanggal(inventoriBahanOlahan.itemKe[index].tanggalBuat);
+						end;
+						inventoriBahanOlahan.itemKe[index].jumlahTersedia:=1;
+						inc(inventoriBahanOlahan.banyakItem); 
+						inventoriBahanOlahan.itemKe[index].hargaJual:=BO.hargaJual;
+					dec(dataSimulasi.itemKe[ID].jumlahEnergi);
+					writeln('Bahan olahan ',dataBahanOlahan.itemKe[iBO].nama,' telah dibuat!');
+					end;
+			end
+		else if not(found) then
+			writeln('Bahan olahan tidak ditemukan!')
+		else if (dataBahanOlahan.itemKe[iBO].jumlahTersedia>=25) then
+			writeln('Jumlah bahan olahan terlalu banyak (>=25)!');
+	end;
+	
+	procedure cariBM(var dataBahanMentah : tabelBahanMentah; 
+									var s : string;
+									var found : boolean;
+									var iBM : integer);
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}	
-
+	var
+	i : integer;
+	begin
+	found:=false;
+	i:=1;
+		repeat
+		if s=dataBahanMentah.itemKe[i].nama then
+			begin
+			found:=true;
+			iBM:=i;
+			end;
+		inc(i);
+		until (found=true) or (i>dataBahanMentah.banyakItem);
+	end;
+	
+	procedure cariBO(var found : boolean; 
+									var iBO : integer;
+									var dataBahanOlahan : tabelBahanOlahan;
+									var s : string);
+	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
+	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	var
+	i : integer;
+	begin
+	readln(s);
+	found:=false;
+	i:=1;
+		repeat
+		if s=dataBahanOlahan.itemKe[i].nama then
+			begin
+			found:=true;
+			iBO:=i;
+			end;
+		inc(i);
+		until (found=true) or (i>dataBahanOlahan.banyakItem);
+	end;
+	
+	procedure cekBM(var dataBahanMentah : tabelBahanMentah; 
+									var BO : bahanOlahan;
+									var found : boolean;
+									var q : boolean);
+	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
+	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	var
+	i, x : integer;
+	begin
+	found:=true;
+	q:=true;
+	i:=1;
+	x:=0;
+		repeat
+			cariBM(dataBahanMentah,BO.bahanBaku[i],found,x);
+			if found then
+				if dataBahanMentah.itemKe[x].jumlahTersedia<=0 then
+				q:=false;
+			inc(i);
+		until ((found=false) or (q=false)) or (i>BO.banyakBahanBaku);
+	end;
+	
+	procedure kurangiBM(var dataBahanMentah : tabelBahanMentah; 
+									var BO : bahanOlahan;
+									var found : boolean;
+									var q : boolean);
+	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
+	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	var
+	i, x : integer;
+	begin
+	found:=true;
+	q:=true;
+	i:=1;
+	x:=0;
+		repeat
+			cariBM(dataBahanMentah,BO.bahanBaku[i],found,x);
+			if found then
+				dec(dataBahanMentah.itemKe[x].jumlahTersedia);
+			inc(i);
+		until ((found=false) or (q=false)) or (i>BO.banyakBahanBaku);
+	end;
+	
 end.
 
 { TIPS DAN CARA MEMPROGRAM DARI UNIT

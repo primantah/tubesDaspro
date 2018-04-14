@@ -1,42 +1,44 @@
-unit uF10_namaTemplate; //Ganti : sesuaikan dengan nama file, tapi tanpa ".pas"
+unit uF7_jualOlahan;{Note : perlu dibuat agar bahan olahan yang habis dihapus nama nya}
 
 interface
 
-uses uP1_tipeBentukan, uP3_Umum;
+uses uP1_tipeBentukan, uP3_Umum, uF6_OlahBahan;
 
-	procedure mainNamaTemplate(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
+	procedure mainJualOlahan(ID : integer;
+									var dataBahanOlahan : tabelBahanOlahan;  
 									var dataSimulasi : tabelSimulasi); 
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
 	
-	procedure contohProsedurPembantu(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
-
 implementation
 
-	procedure mainNamaTemplate(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
+	procedure mainJualOlahan(ID : integer;
 									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
 									var dataSimulasi : tabelSimulasi); 
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	var
+	found : boolean;
+	iBO : integer;
+	BO : bahanOlahan;
+	s : string;
 	
-	procedure contohProsedurPembantu(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}	
+	begin
+		writeln('Masukkan bahan yang ingin dijual');
+		cariBO(found,iBO,dataBahanOlahan,s);
+		if (found) and (dataBahanOlahan.itemKe[iBO].jumlahTersedia>0) then
+			begin
+			BO:=dataBahanOlahan.itemKe[iBO];
+			dec(BO.jumlahTersedia);
+			dataSimulasi.itemKe[ID].jumlahDuit:=dataSimulasi.itemKe[ID].jumlahDuit+dataBahanOlahan.itemKe[iBO].hargaJual;
+			dec(dataSimulasi.itemKe[ID].jumlahEnergi);
+			writeln('Bahan olahan ',dataBahanOlahan.itemKe[iBO].nama,' telah dijual!');
+			end
+		else if not(found) then
+			writeln('Bahan olahan tidak ditemukan!')
+		else if (dataBahanOlahan.itemKe[iBO].jumlahTersedia<=25) then
+			writeln('Jumlah bahan olahan habis!');
+	end;
 
 end.
 
