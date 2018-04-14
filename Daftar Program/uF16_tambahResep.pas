@@ -1,50 +1,138 @@
-unit uF10_namaTemplate; //Ganti : sesuaikan dengan nama file, tapi tanpa ".pas"
+unit uF16_tambahResep;
 
 interface
 
-uses uP1_tipeBentukan, uP3_Umum;
+uses uP1_tipeBentukan, uF1_load;
 
-	procedure mainNamaTemplate(ID : integer; //hapus parameter yang tidak perlu
+	procedure mainTambahResep(ID : integer;
 									var dataBahanMentah : tabelBahanMentah; 
 									var dataBahanOlahan : tabelBahanOlahan; 
 									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); 
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+									var dataSimulasi : tabelSimulasi;
+									var dataInventoriBahanMentah : tabelBahanMentah); 
 	
-	procedure contohProsedurPembantu(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	function isResepExist(nama:string; var dataResep : tabelResep):boolean;
 
 implementation
 
-	procedure mainNamaTemplate(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); 
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	function isResepExist(nama : string; var dataResep : tabelResep):boolean;
+	var
+		i     : integer;
+		found : boolean;
+	begin
+		i:=1;
+		found:=false;
+		while (found=false) and ( i<=dataResep.banyakItem) do
+		begin
+			if dataResep.itemKe[i].nama=nama then
+			begin
+				found:=true;
+			end else
+				i:=i+1;
+		end;
+		if (found=true) then
+		begin
+			isResepExist:=true;
+		end else
+			isResepExist:=false;
+end;
 	
-	procedure contohProsedurPembantu(ID : integer; //hapus parameter yang tidak perlu
+		function hitungHargaModalResep(ID : integer;
+									var dataBahanMentah : tabelBahanMentah; 
+									var dataBahanOlahan : tabelBahanOlahan; 
+									var dataResep : tabelResep;
+									var dataInventoriBahanMentah : tabelBahanMentah):Integer;
+		var
+			i, j : integer;
+		begin
+			hitungHargaModalResep:=0;
+			for i:=1 to dataResep.banyakItem do
+			begin
+				for j:=1 to dataBahanMentah.banyakItem do
+				begin
+					if dataResep.itemKe[i].nama=dataBahanMentah.itemKe[j].nama then
+					begin
+						hitungHargaModalResep:=hitungHargaModalResep+dataBahanMentah.itemKe[j].hargaBeli;
+					end;
+				end;
+				for j:=1 to dataBahanOlahan.banyakItem do
+				begin
+					if dataResep.itemKe[i].nama=dataBahanOlahan.itemKe[j].nama then
+					begin
+						hitungHargaModalResep:=hitungHargaModalResep+dataBahanOlahan.itemKe[j].hargaJual;
+					end;
+				end;
+				
+			end;
+		end;
+	
+	procedure mainTambahResep(ID : integer;
 									var dataBahanMentah : tabelBahanMentah; 
 									var dataBahanOlahan : tabelBahanOlahan; 
 									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}	
+									var dataSimulasi : tabelSimulasi; 
+									var dataInventoriBahanMentah : tabelBahanMentah);
+	var
+		nama : string; {nama resep baru yg dimasukin}
+		s : string; {String panjang bahan-bahan masakan}
+		dataTemp : tabelString;
+		found : boolean;
+		i , j : integer; {pencacah}
+		
+		
+begin
+	repeat
+		write('Nama resep :'); read(nama);
+		if (isResepExist(nama,dataResep)=true) then
+		begin	
+			writeln('Nama resep telah ada, masukan nama yang lain!');
+		end;
+	until (isResepExist(nama,dataResep)=false);
+	
+	write('Bahan-bahan resep :');
+	read(s);
+	ambilBaris(s,dataTemp);
+	
+			
+	if (dataTemp.banyakItem < 2 ) then
+	begin	
+		writeln('Item kurang dari 2');
+	end else
+	
+	begin
+		for i:=1 to dataTemp.banyakItem do		
+		begin
+			dataResep.itemKe[ID].bahan[i]:=dataTemp.itemKe[i];
+		end;
+		
+		found:=true;
+		
+		while (found=false) do
+		begin
+			for i:=1 to dataResep.banyakItem do
+				begin
+					for j:=1 to dataInventoriBahanMentah.banyakItem do
+					begin
+						if dataResep.itemKe[ID].bahan[i]=dataInventoriBahanMentah.itemKe[j].nama then
+							found:=true;
+					end;
+			end;
+			
+			
+		end;		
+				
+			if found=false then
+				writeln('Item tersebut tidak ada, masukan item yang lain!');	
+			
+			repeat 
+				write('Harga jual resep :'); read(dataResep.itemKe[ID].hargaJual);
+				
+				if (dataResep.itemKe[ID].hargaJual < (0.125 * hitungHargaModalResep(ID,dataBahanMentah,dataBahanOlahan,dataResep,dataInventoriBahanMentah))) then
+				begin
+					writeln('Harga jual minimum harus 12,5% lebih tinggi dari harga modal!');
+				end;
+			until ((dataResep.itemKe[ID].hargaJual >= (0.125 * hitungHargaModalResep(ID,dataBahanMentah,dataBahanOlahan,dataResep,dataInventoriBahanMentah))));	
+	end;
+end;	
 
 end.
-
-{ TIPS DAN CARA MEMPROGRAM DARI UNIT
-* 1. Buat I.S dan F.S sebaik mungkin sehingga orang lain bisa tau maksud program lu tanpa harus ngebaca implementasinya
-* 2. Keterangan : I.S(initial state); F.S(final state)
-* 3. Jangan mengubah uP0_utama.pas, kalo mau ngetest file ini, silahkan "uncomment" HANYA "mainNamaTemplate()" di uP0_utama.pas atau uF3_startSimulasi.pas
-* 4. Kalo mau butuh fungsi atau prosedur topik umum kaya updateTanggal(x) dan sejenisnya, silahkan request ke gue atau bikin sendiri di uP3_umum.pas
-* 5. Silahkan perhatikan baik-baik untup tipedata bentukan di uP1_tipeBentukan.pas
-* 
-* }
