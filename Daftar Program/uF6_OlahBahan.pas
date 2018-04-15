@@ -22,14 +22,15 @@ uses uP1_tipeBentukan, uP3_Umum;
 	procedure cekBM(var dataBahanMentah : tabelBahanMentah; 
 									var BO : bahanOlahan;
 									var found : boolean;
-									var q : boolean);
+									var q : boolean;
+									var jumlah : integer);
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
 	
 	procedure kurangiBM(var dataBahanMentah : tabelBahanMentah; 
 									var BO : bahanOlahan;
 									var found : boolean;
-									var q : boolean);
+									var jumlah : integer);
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
 	
@@ -51,11 +52,12 @@ implementation
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
 	var
 	found,q : boolean;
-	i, iBO, index, j : integer;
+	i, iBO, index, j, jumlah, stok : integer;
 	BO : bahanOlahan;
 	s : string;
 	
 	begin
+		stok:=0;
 		writeln('Masukkan bahan yang ingin dibuat');
 		writeln('Bahan olahan yang tersedia: ');
 		for i:=1 to dataBahanOlahan.banyakItem do
@@ -66,17 +68,23 @@ implementation
 			writeln();
 			end;
 		cariBO(found,iBO,dataBahanOlahan,s);
-		if (found) and (dataBahanOlahan.itemKe[iBO].jumlahTersedia<25) then
+		writeln('Berapa banyak yang ingin dibuat?');
+		readln(jumlah);
+		for i:=1 to inventoriBahanOlahan.banyakItem do
+			begin
+			stok:=stok+inventoriBahanOlahan.itemKe[i].jumlahTersedia;
+			end;
+		if (found) and (stok+jumlah<=dataSimulasi.itemKe[ID].kapasitasMaxInventori) then
 			begin
 			BO:=dataBahanOlahan.itemKe[iBO];
-			cekBM(dataBahanMentah,BO,found,q);
+			cekBM(dataBahanMentah,BO,found,q,jumlah);
 				if not(found) then
 					writeln('Bahan mentah tak ditemukan!')
 				else if not(q) then
 					writeln('Bahan mentah tak cukup!')
 				else
 					begin
-					kurangiBM(dataBahanMentah,BO,found,q);
+					kurangiBM(dataBahanMentah,BO,found,jumlah);
 					index:= inventoriBahanOlahan.banyakItem+1;
 						{memasukan ke array inventoriBahanOlahan}
 						inventoriBahanOlahan.itemKe[index].nama := s;
@@ -85,7 +93,7 @@ implementation
 						begin
 							updateTanggal(inventoriBahanOlahan.itemKe[index].tanggalBuat);
 						end;
-						inventoriBahanOlahan.itemKe[index].jumlahTersedia:=1;
+						inventoriBahanOlahan.itemKe[index].jumlahTersedia:=jumlah;
 						inc(inventoriBahanOlahan.banyakItem); 
 						inventoriBahanOlahan.itemKe[index].hargaJual:=BO.hargaJual;
 					dec(dataSimulasi.itemKe[ID].jumlahEnergi);
@@ -94,8 +102,8 @@ implementation
 			end
 		else if not(found) then
 			writeln('Bahan olahan tidak ditemukan!')
-		else if (dataBahanOlahan.itemKe[iBO].jumlahTersedia>=25) then
-			writeln('Jumlah bahan olahan terlalu banyak (>=25)!');
+		else if (stok+jumlah>dataSimulasi.itemKe[ID].kapasitasMaxInventori) then
+			writeln('Jumlah bahan olahan melebihi kapasitas!');
 	end;
 	
 	procedure cariBM(var dataBahanMentah : tabelBahanMentah; 
@@ -144,7 +152,8 @@ implementation
 	procedure cekBM(var dataBahanMentah : tabelBahanMentah; 
 									var BO : bahanOlahan;
 									var found : boolean;
-									var q : boolean);
+									var q : boolean;
+									var jumlah : integer);
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
 	var
@@ -157,7 +166,7 @@ implementation
 		repeat
 			cariBM(dataBahanMentah,BO.bahanBaku[i],found,x);
 			if found then
-				if dataBahanMentah.itemKe[x].jumlahTersedia<=0 then
+				if dataBahanMentah.itemKe[x].jumlahTersedia<jumlah then
 				q:=false;
 			inc(i);
 		until ((found=false) or (q=false)) or (i>BO.banyakBahanBaku);
@@ -166,22 +175,21 @@ implementation
 	procedure kurangiBM(var dataBahanMentah : tabelBahanMentah; 
 									var BO : bahanOlahan;
 									var found : boolean;
-									var q : boolean);
+									var jumlah : integer);
 	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
 	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
 	var
 	i, x : integer;
 	begin
 	found:=true;
-	q:=true;
 	i:=1;
 	x:=0;
 		repeat
 			cariBM(dataBahanMentah,BO.bahanBaku[i],found,x);
 			if found then
-				dec(dataBahanMentah.itemKe[x].jumlahTersedia);
+				dataBahanMentah.itemKe[x].jumlahTersedia:=dataBahanMentah.itemKe[x].jumlahTersedia-jumlah;
 			inc(i);
-		until ((found=false) or (q=false)) or (i>BO.banyakBahanBaku);
+		until (found=false) or (i>BO.banyakBahanBaku);
 	end;
 	
 end.
