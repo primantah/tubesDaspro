@@ -1,7 +1,8 @@
 program TubesDaspro;
 {SPESIFIKASI : Mensimulasikan 10 hari pertama dari Engi's Kitchen}
 
-uses uP1_tipeBentukan, uP2_pesan, uP3_umum, uF1_load, uF2_exit, uF3_startSimulasi, uF14_lihatResep, uF15_cariResep, uF16_tambahResep, uF17_upgradeInventori;
+uses uP1_tipeBentukan, uP2_pesan, uP3_umum, 
+	 uF1_load, uF2_exit, uF3_startSimulasi, uF14_lihatResep, uF15_cariResep, uF16_tambahResep, uF17_upgradeInventori;
 
 {KAMUS UTAMA}
 var
@@ -39,7 +40,6 @@ begin
 			'lihatResep'		: mainLihatResep(ID, dataResep);
 			'cariResep'			: mainCariResep(ID, dataResep);
 			'tambahResep'		: mainTambahResep(ID, dataBahanMentah, dataBahanOlahan, dataResep, dataSimulasi, dataInventoriBahanMentah);
-
 			'upgradeInventori'	: mainUpgradeInventori(ID, dataSimulasi);
 		else if (pos('start',perintah)>0) then 
 				if (loaded) then
