@@ -5,7 +5,7 @@ interface
 uses uP1_tipeBentukan, uP2_pesan, 
 	 uF4_stopSimulasi, uF11_tidur, uF5_beliBahan, uF9_makan, 
 	 uF6_OlahBahan, uF7_jualOlahan, uF16_tambahResep, uF17_upgradeInventori,
-	 uF13_lihatInventori, uF14_lihatResep, uF15_cariResep, uF12_lihatStatistik;
+	 uF13_lihatInventori, uF14_lihatResep, uF15_cariResep, uF12_lihatStatistik, uF10_istirahat;
 
 	procedure mainStartSimulasi(ID : integer;
 									var dataBahanMentah : tabelBahanMentah; 
@@ -52,8 +52,11 @@ implementation
 			{antarmuka}
 			tampilkanMenu('startSimulasi');	
 			writeln('Selamat pagi!, hari ini tanggal: ',dataSimulasi.itemKe[ID].tanggalSimulasi.hari,'/',dataSimulasi.itemKe[ID].tanggalSimulasi.bulan,'/',dataSimulasi.itemKe[ID].tanggalSimulasi.tahun);
-			writeln('Sisa Energi: ', dataSimulasi.itemKe[ID].jumlahEnergi);
-			writeln('Sisa Uang: ', dataSimulasi.itemKe[ID].jumlahDuit);
+			writeln('Sisa Energi		: ', dataSimulasi.itemKe[ID].jumlahEnergi);
+			writeln('Sisa Uang			: ', dataSimulasi.itemKe[ID].jumlahDuit);
+			writeln('Jumlah Makan		: ', jmlMakan);
+			writeln('Jumlah Istirahat	: ', jmlIstirahat);
+			
 			write('>> '); readln(perintah);
 			
 			case (perintah) of 
@@ -69,7 +72,7 @@ implementation
 				'jualOlahan'		: mainJualOlahan(ID,dataInventoriBahanOlahan,dataSimulasi);
 				(*'jualResep'			: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) else mainJualResep();*)
 				'makan'				: mainMakan(jmlMakan, dataSimulasi.itemKe[ID].jumlahEnergi);
-				(*'istirahat'		: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) else mainIstirahat();*)
+				'istirahat'		: mainIstirahat(jmlIstirahat, dataSimulasi.itemKe[ID].jumlahEnergi);
 				'tidur'				: mainTidur(dataSimulasi, dataInventoriBahanMentah, dataInventoriBahanOlahan, ID, jmlMakan, jmlIstirahat);
 			end; {asumsi : perintah selalu valid}
 			
