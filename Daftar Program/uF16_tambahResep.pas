@@ -92,7 +92,7 @@ end;
 	{Algoritma}	
 begin
 	repeat
-		write('Nama resep :'); read(nama);
+		write('Nama resep :'); readln(nama);
 		if (isResepExist(nama,dataResep)=true) then
 		begin	
 			writeln('Nama resep telah ada, masukan nama yang lain!');
@@ -100,7 +100,7 @@ begin
 	until (isResepExist(nama,dataResep)=false);
 	
 	write('Bahan-bahan resep :');
-	read(s);
+	readln(s);
 	ambilBaris(s,dataTemp);
 	
 			
