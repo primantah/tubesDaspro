@@ -35,9 +35,8 @@ begin
 		
 		{MENGEKSESUKSI PROMPT}
 		case (perintah) of 
-			'load' 				: mainLoad('bahanMentah.in','bahanOlahan.in','resep.in','simulasi.in',
-											dataBahanMentah,dataBahanOlahan,dataResep,dataSimulasi, loaded);
-			'exit' 				: mainExit(programSelesai, dataSimulasi);
+			'load' 				: mainLoad('bahanMentah.in','bahanOlahan.in','resep.in','simulasi.in',dataBahanMentah,dataBahanOlahan,dataResep,dataSimulasi, loaded);
+			'exit' 				: mainExit(programSelesai, dataSimulasi, dataInventoriBahanMentah, dataInventoriBahanOlahan,'simulasi.out', 'inventoriBahanMentah.out', 'inventoriBahanOlahan.out');
 			'lihatInventori'	: mainLihatInventori(dataInventoriBahanMentah, dataInventoriBahanOlahan);
 			'lihatResep'		: mainLihatResep(ID, dataResep);
 			'cariResep'			: mainCariResep(ID, dataResep);
