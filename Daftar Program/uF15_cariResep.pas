@@ -1,50 +1,51 @@
-unit uF10_namaTemplate; //Ganti : sesuaikan dengan nama file, tapi tanpa ".pas"
+unit uF15_cariResep;
 
 interface
 
 uses uP1_tipeBentukan, uP3_Umum;
 
-	procedure mainNamaTemplate(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); 
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
-	
-	procedure contohProsedurPembantu(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	procedure mainCariResep(ID : integer; dataResep : tabelResep); 
+	{ Menjalankan fitur 15 }
 
 implementation
 
-	procedure mainNamaTemplate(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); 
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	procedure mainCariResep(ID : integer; dataResep : tabelResep); 
+	{ Menjalankan fitur 15 }
+	var
+	i,j: integer;
+	resepAda: boolean;
+	resepYangDiCari: string;
+	begin
+		writeln('Resep apa yang ingin Anda cari?');
+		readln(resepYangDiCari);
+		
+		{mencari resepYangDiCari di dataResep}
+		i:=0;
+		resepAda:=false;
+			
+			while((i<=dataResep.banyakItem) and (resepAda = false)) do
+			begin
+				i:= i+1;
+				if(resepYangDiCari = dataResep.itemKe[i].nama) then
+					resepAda:=true;
+			end;
+		
+		{Menuliskan hasil pencarian, jika ditulisan resepNya jika tidak dituliskan pesan kesalahan}
+		if(resepAda) then
+		begin
+			i:=i-1;
+			writeln('Resep ditemukan');
+			writeln(dataResep.itemKe[i].nama);
+			writeln('harga jual : ',dataResep.itemKe[i].hargaJual);
+			write('Bahan : ');
+				for j:=1 to (dataResep.itemKe[i].banyakBahan)-1 do
+				begin
+					write(dataResep.itemKe[i].bahan[j], ', ');
+				end;
+			writeln(dataResep.itemKe[i].bahan[dataResep.itemKe[i].banyakBahan]);
+		end else
+				writeln('Resep tidak ditemukan didaftar resep');
 	
-	procedure contohProsedurPembantu(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}	
+	end;
 
 end.
-
-{ TIPS DAN CARA MEMPROGRAM DARI UNIT
-* 1. Buat I.S dan F.S sebaik mungkin sehingga orang lain bisa tau maksud program lu tanpa harus ngebaca implementasinya
-* 2. Keterangan : I.S(initial state); F.S(final state)
-* 3. Jangan mengubah uP0_utama.pas, kalo mau ngetest file ini, silahkan "uncomment" HANYA "mainNamaTemplate()" di uP0_utama.pas atau uF3_startSimulasi.pas
-* 4. Kalo mau butuh fungsi atau prosedur topik umum kaya updateTanggal(x) dan sejenisnya, silahkan request ke gue atau bikin sendiri di uP3_umum.pas
-* 5. Silahkan perhatikan baik-baik untup tipedata bentukan di uP1_tipeBentukan.pas
-* 
-* }
