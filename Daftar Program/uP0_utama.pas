@@ -39,6 +39,7 @@ begin
 			'lihatResep'		: mainLihatResep(ID, dataResep);
 			'cariResep'			: mainCariResep(ID, dataResep);
 			'tambahResep'		: mainTambahResep(ID, dataBahanMentah, dataBahanOlahan, dataResep, dataSimulasi, dataInventoriBahanMentah);
+
 			'upgradeInventori'	: mainUpgradeInventori(ID, dataSimulasi);
 		else if (pos('start',perintah)>0) then 
 				if (loaded) then
