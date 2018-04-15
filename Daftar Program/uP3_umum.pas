@@ -6,6 +6,8 @@ uses uP1_TipeBentukan;
 	{**********DAFTAR SUBPROGRAM TENTANG TANGGAL*****************}
 	{------------------------------------------------------------}
 	
+	procedure tulisTanggal(x : tanggal);
+		
 	procedure ambilTanggal(formatString : string; var x : tanggal);
 	{ I.S	: tanggal masih dalam format dd//mm/yyyy
 	* F.S	: tanggal sudah dalam bentuk record tanggal}
@@ -23,6 +25,11 @@ implementation
 	{------------------------------------------------------------}
 	{**********DAFTAR SUBPROGRAM TENTANG TANGGAL*****************}
 	{------------------------------------------------------------}
+	
+	procedure tulisTanggal(x : tanggal);
+	begin
+		writeln(x.hari,'/',x.bulan,'/',x.tahun);
+	end;
 	
 	procedure ambilTanggal(formatString : string; var x : tanggal);
 	{ I.S	: tanggal masih dalam format dd//mm/yyyy
