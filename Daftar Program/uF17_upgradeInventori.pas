@@ -5,14 +5,14 @@ interface
 uses uP1_tipeBentukan, uP3_Umum;
 
 	procedure mainUpgradeInventori(ID : integer; var dataSimulasi : tabelSimulasi); 
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+
 	
 implementation
 
+//PROSEDUR UTAMA
 	procedure mainUpgradeInventori(ID : integer; var dataSimulasi : tabelSimulasi); 
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	
+	{algoritma}
 	begin
 		if (dataSimulasi.itemKe[ID].jumlahDuit<25) then
 		begin
