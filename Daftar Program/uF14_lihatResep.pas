@@ -1,50 +1,62 @@
-unit uF10_namaTemplate; //Ganti : sesuaikan dengan nama file, tapi tanpa ".pas"
+unit uF14_lihatResep;
 
 interface
 
 uses uP1_tipeBentukan, uP3_Umum;
 
-	procedure mainNamaTemplate(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); 
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	procedure mainLihatResep(ID : integer; dataResep : tabelResep);  
+	{ Menjalankan fungsi 14 }
 	
-	procedure contohProsedurPembantu(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	
+	procedure urutkanTabelResep(var dataResep : tabelResep);
+	{ I.S : dataResep tidak terurut berdasarkan nama
+	* F.S : dataResep telah terurut berdasarkan nama mulai terbesar}
 
 implementation
 
-	procedure mainNamaTemplate(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); 
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}
+	procedure mainLihatResep(ID : integer; dataResep : tabelResep); 
+	{ Menjalankan fungsi 14 }
+	var
+	i,j : integer;
+	begin
+		{mengurutkan dataResep}
+		urutkanTabelResep(dataResep);
+		
+		{menampilkan resep}
+		for i:= 1 to dataResep.banyakItem do
+		begin
+			write('Resep ',i, ' :');
+			writeln(dataResep.itemKe[i].nama);
+			writeln('harga jual : ', dataResep.itemKe[i].hargaJual);
+			{menampikan bahan-bahan}
+			write('Bahan : ');
+				for j:=1 to dataResep.itemKe[i].banyakBahan-1 do
+				begin
+					write(dataResep.itemKe[i].bahan[j], ', ');
+				end;
+			writeln(dataResep.itemKe[i].bahan[dataResep.itemKe[i].banyakBahan]);
+		end;
+	end;
 	
-	procedure contohProsedurPembantu(ID : integer; //hapus parameter yang tidak perlu
-									var dataBahanMentah : tabelBahanMentah; 
-									var dataBahanOlahan : tabelBahanOlahan; 
-									var dataResep : tabelResep; 
-									var dataSimulasi : tabelSimulasi); );
-	{ I.S : Bagaimana keadaan awal dari tiap variabel pada parameter?
-	* F.S : Bagaimana keadaan akhir dari tiap variabel pada parameter?}	
-
+	procedure urutkanTabelResep(var dataResep : tabelResep);
+	{ I.S : dataResep tidak terurut berdasarkan nama
+	* F.S : dataResep telah terurut berdasarkan nama mulai terbesar}
+	var
+	i,j: integer;
+	temp: resep;
+	begin
+		for i:= dataResep.banyakItem downto 2 do
+		begin
+			for j:= 2 to i do
+			begin
+				if(dataResep.itemKe[j].nama>dataResep.itemKe[j-1].nama) then
+				begin
+					temp:=dataResep.itemKe[j];
+					dataResep.itemKe[j]:=dataResep.itemKe[j-1];
+					dataResep.itemKe[j-1]:=temp;
+				end;
+			end;
+		end;
+	end;
+	
 end.
-
-{ TIPS DAN CARA MEMPROGRAM DARI UNIT
-* 1. Buat I.S dan F.S sebaik mungkin sehingga orang lain bisa tau maksud program lu tanpa harus ngebaca implementasinya
-* 2. Keterangan : I.S(initial state); F.S(final state)
-* 3. Jangan mengubah uP0_utama.pas, kalo mau ngetest file ini, silahkan "uncomment" HANYA "mainNamaTemplate()" di uP0_utama.pas atau uF3_startSimulasi.pas
-* 4. Kalo mau butuh fungsi atau prosedur topik umum kaya updateTanggal(x) dan sejenisnya, silahkan request ke gue atau bikin sendiri di uP3_umum.pas
-* 5. Silahkan perhatikan baik-baik untup tipedata bentukan di uP1_tipeBentukan.pas
-* 
-* }
