@@ -4,7 +4,8 @@ interface
 
 uses uP1_tipeBentukan, uP2_pesan, 
 	 uF4_stopSimulasi, uF11_tidur, uF5_beliBahan, uF9_makan, 
-	 uF6_OlahBahan, uF7_jualOlahan, uF16_tambahResep, uF17_upgradeInventori, uF14_lihatResep, uF15_cariResep;
+	 uF6_OlahBahan, uF7_jualOlahan, uF16_tambahResep, uF17_upgradeInventori,
+	 uF13_lihatInventori, uF14_lihatResep, uF15_cariResep, uF12_lihatStatistik;
 
 	procedure mainStartSimulasi(ID : integer;
 									var dataBahanMentah : tabelBahanMentah; 
@@ -56,11 +57,11 @@ implementation
 			write('>> '); readln(perintah);
 			
 			case (perintah) of 
-				'stopSimulasi'		: mainStopSimulasi(stopSimulasi);(*
-				'lihatStatistik'	: mainLihatStatistik(dataSimulasi, ID);
-				'lihatInventori'	: mainLihatInventori(dataBahanMentah, dataBahanOlahan, ID);*)
-				'lihatResep'		: mainLihatResep(ID, dataResep);
-				'cariResep'			: mainCariResep(ID, dataResep);
+				'stopSimulasi'		: mainStopSimulasi(stopSimulasi);
+				'lihatStatistik'	: mainLihatStatistik(ID, dataSimulasi);
+				'lihatInventori'	: mainLihatInventori(dataInventoriBahanMentah, dataInventoriBahanOlahan);
+				//'lihatResep'		: mainLihatResep(ID, dataResep);
+				//'cariResep'			: mainCariResep(ID, dataResep);
 				'tambahResep'		: mainTambahResep(ID, dataBahanMentah, dataBahanOlahan, dataResep, dataSimulasi, dataInventoriBahanMentah);
 				'upgradeInventori' 	: mainUpgradeInventori(ID, dataSimulasi);
 				'beliBahan'			: mainBeliBahan(ID, dataBahanMentah, dataSimulasi, dataInventoriBahanMentah);
