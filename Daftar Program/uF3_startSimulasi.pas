@@ -31,18 +31,20 @@ implementation
 		stopSimulasi: boolean;
 		perintah	: string;
 		jmlMakan	: integer;
+		jmlIstirahat: integer;
 	{ALGORITMA LOKAL}
 	begin	
 		dataSimulasi.itemKe[ID].jumlahEnergi	:= 10;
-		jmlMakan := 0;
 		dataSimulasi.itemKe[ID].jumlahHariHidup	:= 1;
 		dataSimulasi.itemKe[ID].jumlahDuit		:= 20000;
-		dataInventoriBahanOlahan.banyakItem		:=0;
+		dataInventoriBahanOlahan.banyakItem		:= 0;
 		
 		repeat
-			{inisialisasi}
+			{inisialisasi} 
 			stopSimulasi := false;
 			dataSimulasi.itemKe[ID].isTidur 		:= false;
+			jmlMakan := 0;
+			jmlIstirahat := 0;
 			
 			{antarmuka}
 			tampilkanMenu('startSimulasi');	
@@ -57,13 +59,18 @@ implementation
 				'lihatInventori'	: mainLihatInventori(dataBahanMentah, dataBahanOlahan, ID);
 				'lihatResep'		: mainLihatResep(dataResep, ID);
 				'cariResep'			: mainCariResep(dataResep, ID);*)
-				'tambahResep'		: mainTambahResep(ID, dataBahanMentah, dataBahanOlahan, dataResep, dataSimulasi, dataInventoriBahanMentah);
-				'upgradeInventori' 	: mainUpgradeInventori(ID, dataSimulasi);
-				'beliBahan'			: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) else mainBeliBahan(ID, dataBahanMentah, dataSimulasi, dataInventoriBahanMentah);
-				'olahBahan' 		: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) else mainOlahBahan(ID,dataInventoriBahanMentah,dataBahanOlahan,dataSimulasi,dataInventoriBahanOlahan);
-				'jualOlahan'		: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) else mainJualOlahan(ID,dataInventoriBahanOlahan,dataSimulasi);
+				'tambahResep'		: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) 
+										else mainTambahResep(ID, dataBahanMentah, dataBahanOlahan, dataResep, dataSimulasi, dataInventoriBahanMentah);
+				'upgradeInventori' 	: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) 
+										else mainUpgradeInventori(ID, dataSimulasi);
+				'beliBahan'			: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) 
+										else mainBeliBahan(ID, dataBahanMentah, dataSimulasi, dataInventoriBahanMentah);
+				'olahBahan' 		: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) 
+										else mainOlahBahan(ID,dataInventoriBahanMentah,dataBahanOlahan,dataSimulasi,dataInventoriBahanOlahan);
+				'jualOlahan'		: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) 
+										else mainJualOlahan(ID,dataInventoriBahanOlahan,dataSimulasi);
 				(*'jualResep'			: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) else mainJualResep();*)
-				'makan'				: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) else mainMakan(jmlMakan, dataSimulasi.itemKe[ID].jumlahEnergi);
+				'makan'				: mainMakan(jmlMakan, dataSimulasi.itemKe[ID].jumlahEnergi);
 				(*'istirahat'		: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) else mainIstirahat();*)
 				'tidur'				: mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan);
 			end; {asumsi : perintah selalu valid}
