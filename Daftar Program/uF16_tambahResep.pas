@@ -1,5 +1,6 @@
 unit uF16_tambahResep;
 
+//INTERFACE
 interface
 
 uses uP1_tipeBentukan, uF1_load;
@@ -13,12 +14,16 @@ uses uP1_tipeBentukan, uF1_load;
 	
 	function isResepExist(nama:string; var dataResep : tabelResep):boolean;
 
+//IMPLEMENTATION
 implementation
 
+//Prosedur Pembantu (1)
 	function isResepExist(nama : string; var dataResep : tabelResep):boolean;
+	{Kamus Lokal}
 	var
 		i     : integer;
 		found : boolean;
+	{Algoritma}
 	begin
 		i:=1;
 		found:=false;
@@ -36,14 +41,17 @@ implementation
 		end else
 			isResepExist:=false;
 end;
-	
+
+//Prosedur Pembantu (2)	
 		function hitungHargaModalResep(ID : integer;
 									var dataBahanMentah : tabelBahanMentah; 
 									var dataBahanOlahan : tabelBahanOlahan; 
 									var dataResep : tabelResep;
 									var dataInventoriBahanMentah : tabelBahanMentah):Integer;
+		{Kamus Lokal}
 		var
 			i, j : integer;
+		{Algoritma}
 		begin
 			hitungHargaModalResep:=0;
 			for i:=1 to dataResep.banyakItem do
@@ -65,13 +73,15 @@ end;
 				
 			end;
 		end;
-	
+		
+// PROSEDUR UTAMA //
 	procedure mainTambahResep(ID : integer;
 									var dataBahanMentah : tabelBahanMentah; 
 									var dataBahanOlahan : tabelBahanOlahan; 
 									var dataResep : tabelResep; 
 									var dataSimulasi : tabelSimulasi; 
 									var dataInventoriBahanMentah : tabelBahanMentah);
+	{Kamus Lokal}
 	var
 		nama : string; {nama resep baru yg dimasukin}
 		s : string; {String panjang bahan-bahan masakan}
@@ -79,7 +89,7 @@ end;
 		found : boolean;
 		i , j : integer; {pencacah}
 		
-		
+	{Algoritma}	
 begin
 	repeat
 		write('Nama resep :'); read(nama);
