@@ -42,6 +42,8 @@ implementation
 		dataSimulasi.itemKe[ID].jumlahDuit		:= 20000;
 		dataInventoriBahanOlahan.banyakItem		:= 0;
 		
+		tampilkanMenu('startSimulasi');	
+		
 		repeat
 			{inisialisasi} 
 			stopSimulasi := false;
@@ -50,12 +52,13 @@ implementation
 			jmlIstirahat := 0;
 			
 			{antarmuka}
-			tampilkanMenu('startSimulasi');	
+			writeln('--------------------------------------------------');
 			writeln('Selamat pagi!, hari ini tanggal: ',dataSimulasi.itemKe[ID].tanggalSimulasi.hari,'/',dataSimulasi.itemKe[ID].tanggalSimulasi.bulan,'/',dataSimulasi.itemKe[ID].tanggalSimulasi.tahun);
 			writeln('Sisa Energi		: ', dataSimulasi.itemKe[ID].jumlahEnergi);
-			writeln('Sisa Uang			: ', dataSimulasi.itemKe[ID].jumlahDuit);
+			writeln('Sisa Uang		: ', dataSimulasi.itemKe[ID].jumlahDuit);
 			writeln('Jumlah Makan		: ', jmlMakan);
 			writeln('Jumlah Istirahat	: ', jmlIstirahat);
+			writeln('--------------------------------------------------');
 			
 			write('>> '); readln(perintah);
 			
@@ -67,13 +70,14 @@ implementation
 				//'cariResep'			: mainCariResep(ID, dataResep);
 				'tambahResep'		: mainTambahResep(ID, dataBahanMentah, dataBahanOlahan, dataResep, dataSimulasi, dataInventoriBahanMentah);
 				'upgradeInventori' 	: mainUpgradeInventori(ID, dataSimulasi);
+				'makan'				: mainMakan(jmlMakan, dataSimulasi.itemKe[ID].jumlahEnergi);
+				'istirahat'			: mainIstirahat(jmlIstirahat, dataSimulasi.itemKe[ID].jumlahEnergi);
+				'tidur'				: mainTidur(dataSimulasi, dataInventoriBahanMentah, dataInventoriBahanOlahan, ID, jmlMakan, jmlIstirahat);
 				'beliBahan'			: mainBeliBahan(ID, dataBahanMentah, dataSimulasi, dataInventoriBahanMentah);
 				'olahBahan' 		: mainOlahBahan(ID,dataInventoriBahanMentah,dataBahanOlahan,dataSimulasi,dataInventoriBahanOlahan);
 				'jualOlahan'		: mainJualOlahan(ID,dataInventoriBahanOlahan,dataSimulasi);
-				(*'jualResep'			: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan) else mainJualResep();*)
-				'makan'				: mainMakan(jmlMakan, dataSimulasi.itemKe[ID].jumlahEnergi);
-				'istirahat'		: mainIstirahat(jmlIstirahat, dataSimulasi.itemKe[ID].jumlahEnergi);
-				'tidur'				: mainTidur(dataSimulasi, dataInventoriBahanMentah, dataInventoriBahanOlahan, ID, jmlMakan, jmlIstirahat);
+				(*'jualResep'		: if (not(lelah(dataSimulasi,ID))) then  mainJualResep();*)
+				
 			end; {asumsi : perintah selalu valid}
 			
 		until (stopSimulasi) or (dataSimulasi.itemKe[ID].jumlahHariHidup>10);				
@@ -86,6 +90,7 @@ implementation
 		begin
 			writeln('Anda kelelahan, silahkan tidur');
 			lelah:= true
+			//mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan);
 		end
 		else
 			lelah:= false;
