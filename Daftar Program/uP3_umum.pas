@@ -28,7 +28,7 @@ implementation
 	
 	procedure tulisTanggal(x : tanggal);
 	begin
-		writeln(x.hari,'/',x.bulan,'/',x.tahun);
+		write(x.hari,'/',x.bulan,'/',x.tahun);
 	end;
 	
 	procedure ambilTanggal(formatString : string; var x : tanggal);
