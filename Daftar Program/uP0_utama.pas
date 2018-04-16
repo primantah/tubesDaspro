@@ -1,7 +1,10 @@
 program TubesDaspro;
 {SPESIFIKASI : Mensimulasikan 10 hari pertama dari Engi's Kitchen}
 
-uses uP1_tipeBentukan, uP2_pesan, uP3_umum, uF1_load, uF2_exit, uF3_startSimulasi, uF14_lihatResep, uF15_cariResep, uF16_tambahResep, uF17_upgradeInventori;
+uses uP1_tipeBentukan, uP2_pesan, uP3_umum, 
+	 uF1_load, uF2_exit, uF3_startSimulasi, 
+	 uF14_lihatResep, uF15_cariResep, 
+	 uF16_tambahResep, uF17_upgradeInventori, uF13_lihatInventori;
 
 {KAMUS UTAMA}
 var
@@ -25,21 +28,20 @@ begin
 	tampilkanMenu('awal'); 	{TAMPILAN ANTARMUKA AWAL}
 	loaded := false; programSelesai := false; ID:=0;	{INISIALISASI VARIABEL}
 	
-	repeat
-		tampilkanMenu('utama'); {TAMPILAN MENU UTAMA}
+	tampilkanMenu('utama'); {TAMPILAN MENU UTAMA}
+	
+	repeat	
 
 		write('> '); readln(perintah); 	{MENYEDIAKAN PROMPT}
 		
 		{MENGEKSESUKSI PROMPT}
 		case (perintah) of 
-			'load' 				: mainLoad('bahanMentah.in','bahanOlahan.in','resep.in','simulasi.in',
-											dataBahanMentah,dataBahanOlahan,dataResep,dataSimulasi, loaded);
-			'exit' 				: mainExit(programSelesai, dataSimulasi);(*
-			'lihatInventori'	: mainLihatInventori(dataBahanMentah, dataBahanOlahan, ID); //validasi waktu ID=0(belom ada simulasi)*)
+			'load' 				: mainLoad('bahanMentah.in','bahanOlahan.in','resep.in','simulasi.in',dataBahanMentah,dataBahanOlahan,dataResep,dataSimulasi, loaded);
+			'exit' 				: mainExit(programSelesai, dataSimulasi, dataInventoriBahanMentah, dataInventoriBahanOlahan,'simulasi.out', 'inventoriBahanMentah.out', 'inventoriBahanOlahan.out');
+			'lihatInventori'	: mainLihatInventori(dataInventoriBahanMentah, dataInventoriBahanOlahan);
 			'lihatResep'		: mainLihatResep(ID, dataResep);
 			'cariResep'			: mainCariResep(ID, dataResep);
 			'tambahResep'		: mainTambahResep(ID, dataBahanMentah, dataBahanOlahan, dataResep, dataSimulasi, dataInventoriBahanMentah);
-
 			'upgradeInventori'	: mainUpgradeInventori(ID, dataSimulasi);
 		else if (pos('start',perintah)>0) then 
 				if (loaded) then

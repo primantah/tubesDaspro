@@ -44,20 +44,21 @@ implementation
 		
 			modal := dataSimulasi.itemKe[ID].jumlahDuit;
 			
-			if(modal>=dataBahanMentah.itemKe[i].hargaBeli*kuantitas) then
+			if ((modal>=dataBahanMentah.itemKe[i].hargaBeli*kuantitas) and (ada)) then
 			begin
 				writeln('Total harga: ', dataBahanMentah.itemKe[i].hargaBeli*kuantitas);
 				writeln('Pembelian Sukses');
-				index:= inventoriBahanMentah.banyakItem+1;
+				index:= inventoriBahanMentah.banyakItem+1; 
 				{memasukan ke array inventoriBahanMentah}
 				inventoriBahanMentah.itemKe[index].nama := bahanYangDibeli;
-				{membuat tanggal kadaluarsa}
-				for j:= 1 to dataSimulasi.itemKe[ID].jumlahHariHidup do
-				begin
-					updateTanggal(inventoriBahanMentah.itemKe[index].tanggalBeli);
-				end;
+				{membuat tanggal beli}
+				inventoriBahanMentah.itemKe[index].tanggalBeli.hari := dataSimulasi.itemKe[ID].tanggalSimulasi.hari;
+				inventoriBahanMentah.itemKe[index].tanggalBeli.bulan := dataSimulasi.itemKe[ID].tanggalSimulasi.bulan;
+				inventoriBahanMentah.itemKe[index].tanggalBeli.tahun := dataSimulasi.itemKe[ID].tanggalSimulasi.tahun;
+				
 				inventoriBahanMentah.itemKe[index].jumlahTersedia := kuantitas;
 				dataSimulasi.itemKe[ID].jumlahDuit:=dataSimulasi.itemKe[ID].jumlahDuit-dataBahanMentah.itemKe[i].hargaBeli*kuantitas;
+				inventoriBahanMentah.banyakItem:= inventoriBahanMentah.banyakItem+1;
 			end else
 			begin
 				writeln('Total harga: ', dataBahanMentah.itemKe[i].hargaBeli*kuantitas);
@@ -65,7 +66,6 @@ implementation
 			end;
 		end;
 		
-		inventoriBahanMentah.banyakItem:= inventoriBahanMentah.banyakItem+1; 
 		dataSimulasi.itemKe[ID].totalPengeluaran:= dataBahanMentah.itemKe[i].hargaBeli*kuantitas;
 		dataSimulasi.itemKe[ID].jumlahEnergi := dataSimulasi.itemKe[ID].jumlahEnergi-1;
 	end;
