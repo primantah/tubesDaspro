@@ -74,7 +74,7 @@ implementation
 				'tambahResep'		: mainTambahResep(ID, dataBahanMentah, dataBahanOlahan, dataResep, dataSimulasi, dataInventoriBahanMentah);
 				'upgradeInventori' 	: mainUpgradeInventori(ID, dataSimulasi);
 				'makan'				: mainMakan(jmlMakan, dataSimulasi.itemKe[ID].jumlahEnergi);
-				'istirahat'			: mainIstirahat(ID, dataSimulasi);
+				'istirahat'			: mainIstirahat(jmlIstirahat, dataSimulasi.itemKe[ID].jumlahEnergi);
 				'tidur'				: mainTidur(dataSimulasi, dataInventoriBahanMentah, dataInventoriBahanOlahan, ID, jmlMakan, jmlIstirahat);
 				'beliBahan'			: mainBeliBahan(ID, dataBahanMentah, dataSimulasi, dataInventoriBahanMentah);
 				'olahBahan' 		: mainOlahBahan(ID,dataInventoriBahanMentah,dataBahanOlahan,dataSimulasi,dataInventoriBahanOlahan);
