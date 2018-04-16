@@ -5,13 +5,14 @@ interface
 uses uP1_tipeBentukan, uP3_Umum;
 
 	procedure mainUpgradeInventori(ID : integer; var dataSimulasi : tabelSimulasi); 
-
+	{I.S : kapasitas Inventori belum bertambah dan duit belum berkurang
+	 F.S : kapasitas Inventori sudah bertambah sebanyak 25 dan duit akan berkurang sejumlah 25}
 	
 implementation
 
 //PROSEDUR UTAMA
 	procedure mainUpgradeInventori(ID : integer; var dataSimulasi : tabelSimulasi); 
-	{I.S : kapasitas Inventori belum bertambah dan duit belum berkurang}
+	{I.S : kapasitas Inventori belum bertambah dan duit belum berkurang
 	 F.S : kapasitas Inventori sudah bertambah sebanyak 25 dan duit akan berkurang sejumlah 25}
 	
 	{algoritma}
