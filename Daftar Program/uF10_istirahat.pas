@@ -1,32 +1,46 @@
-unit uF10_istirahat; 
+unit uF10_istirahat;
 
-interface
+interface 
+uses uP1_TipeBentukan;
 
-uses uP1_tipeBentukan, uP3_Umum;
 
-	procedure mainIstirahat(var jmlIstirahat : integer;
-									var energy : integer);
-	{ I.S : jmlIstirahat = berapa kali istirahat hari ini, energy = energy hari ini
-	* F.S : jmlIstirahat = berapa kali istirahat hari ini+1, energy = energy hari ini+1}
+	procedure beristirahat (ID : integer; var dataSimulasi : tabelSimulasi);
 
-implementation
-
-	procedure mainIstirahat(var jmlIstirahat : integer;
-									var energy : integer);
-	{ I.S : jmlIstirahat = berapa kali istirahat hari ini, energy = energy hari ini
-	* F.S : jmlIstirahat = berapa kali istirahat hari ini+1, energy = energy hari ini+1}
-	{ ALGORITMA }
-	begin
-		if energy >= 10 then
-			writeln('Energi anda masih penuh!')
-		else if jmlIstirahat>=6 then
-			writeln('Anda hanya bisa istirahat 6x sehari!')
-		else
-		begin
-			jmlIstirahat:=jmlIstirahat+1;
-			energy:=energy+1;
-		end;
-	end;
 	
+implementation 
 
+	procedure beristirahat (ID : integer; var dataSimulasi : tabelSimulasi);
+
+	var
+	istirahat : Boolean;
+	jumlahIstirahat : integer;
+	Hari : integer;
+
+	begin
+		jumlahIstirahat := 0;
+		istirahat := false;
+		Hari := dataSimulasi.itemKe[ID].jumlahHariHidup;
+		repeat
+			if istirahat = true then
+			begin
+				jumlahIstirahat := jumlahIstirahat + 1;
+				if jumlahIstirahat <= 6 then
+				begin
+					if dataSimulasi.itemKe[ID].jumlahEnergi <= 10 then
+					begin
+						dataSimulasi.itemKe[ID].jumlahEnergi := dataSimulasi.itemKe[ID].jumlahEnergi + 1;
+					end
+					else
+					begin
+						dataSimulasi.itemKe[ID].jumlahEnergi := 10;
+					end;
+				end;
+			end;
+		until (Hari = 10);
+	end;
 end.
+			
+				
+			
+		
+			
