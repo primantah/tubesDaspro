@@ -1,4 +1,4 @@
-unit uF13_lihatInventori; //Ganti : sesuaikan dengan nama file, tapi tanpa ".pas"
+unit uF13_lihatInventori; 
 
 interface
 
@@ -14,9 +14,7 @@ implementation
 
 	procedure mainLihatInventori(var dataInventoriBahanMentah : tabelBahanMentah; var dataInventoriBahanOlahan : tabelBahanOLahan);
 	begin
-		writeln('INVENTORI BAHAN MENTAH');
 		lihatDataInventoriBahanMentah(dataInventoriBahanMentah);
-		writeln('INVENTORI BAHAN OLAHAN');
 		lihatDataInventoriBahanOlahan(dataInventoriBahanOlahan);
 	end;
 
@@ -24,28 +22,41 @@ implementation
 	procedure lihatDataInventoriBahanMentah(var dataInventoriBahanMentah : tabelBahanMentah);
 	var	i : integer;
 	begin
-		writeln('Nama | Harga Beli | Durasi Kadaluarsa | Tanggal Beli | Jumlah Tersedia');
-		for i := 1 to dataInventoriBahanMentah.banyakItem do 
+		if (dataInventoriBahanMentah.banyakItem = 0) then
 		begin
-			write(dataInventoriBahanMentah.itemKe[i].nama, ' | ');
-			write(dataInventoriBahanMentah.itemKe[i].hargaBeli, ' | ');
-			write(dataInventoriBahanMentah.itemKe[i].durasiKadaluarsa, ' | ');
-			tulisTanggal(dataInventoriBahanMentah.itemKe[i].tanggalBeli); write(' | ');
-			write(dataInventoriBahanMentah.itemKe[i].jumlahTersedia);writeln();
-		end; 
+			writeln('Inventori Bahan Mentah Kosong');
+		end
+		else
+		begin
+			writeln('INVENTORI BAHAN MENTAH');			
+			writeln('Nama | Tanggal Beli | Jumlah Tersedia');
+			for i := 1 to dataInventoriBahanMentah.banyakItem do 
+			begin
+				write(dataInventoriBahanMentah.itemKe[i].nama, ' | ');
+				tulisTanggal(dataInventoriBahanMentah.itemKe[i].tanggalBeli); write(' | ');
+				write(dataInventoriBahanMentah.itemKe[i].jumlahTersedia);writeln();
+			end; 
+		end;
 	end;
 	
 	procedure lihatDataInventoriBahanOlahan(var dataInventoriBahanOlahan : tabelBahanOLahan);
 	var i : integer;
 	begin
-		writeln('Nama | Harga Jual | Tanggal Buat | Jumlah Tersedia');
-		for i := 1 to dataInventoriBahanOlahan.banyakItem do 
+		if (dataInventoriBahanOlahan.banyakItem = 0) then
 		begin
-			write(dataInventoriBahanOlahan.itemKe[i].nama, ' | ');
-			write(dataInventoriBahanOlahan.itemKe[i].hargaJual, ' | ');
-			tulisTanggal(dataInventoriBahanOlahan.itemKe[i].tanggalBuat); write(' | ');
-			write(dataInventoriBahanOlahan.itemKe[i].jumlahTersedia);writeln();
-		end; 
+			writeln('Inventori Bahan Olahan Kosong');
+		end
+		else
+		begin
+			writeln('INVENTORI BAHAN OLAHAN');		
+			writeln('Nama | Harga Jual | Tanggal Buat | Jumlah Tersedia');
+			for i := 1 to dataInventoriBahanOlahan.banyakItem do 
+			begin
+				write(dataInventoriBahanOlahan.itemKe[i].nama, ' | ');
+				tulisTanggal(dataInventoriBahanOlahan.itemKe[i].tanggalBuat); write(' | ');
+				write(dataInventoriBahanOlahan.itemKe[i].jumlahTersedia);writeln();
+			end; 
+		end;
 	end;
 	
 
