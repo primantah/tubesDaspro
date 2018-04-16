@@ -1,4 +1,5 @@
 unit uF16_tambahResep;
+{unit ini berguna untuk menambah resep masakan baru}
 
 //INTERFACE
 interface
@@ -19,6 +20,10 @@ implementation
 
 //Prosedur Pembantu (1)
 	function isResepExist(nama : string; var dataResep : tabelResep):boolean;
+	{I.S : Menerima input sebuah nama resep
+	 F.S : Jikalai ternyata nama resep itu telah ada, maka fungsi ini akan mengeluarkan TRUE
+	       Kalau nama resep itu belum ada, keluarannya akan FALSE}
+	
 	{Kamus Lokal}
 	var
 		i     : integer;
@@ -48,12 +53,16 @@ end;
 									var dataBahanOlahan : tabelBahanOlahan; 
 									var dataResep : tabelResep;
 									var dataInventoriBahanMentah : tabelBahanMentah):Integer;
+		
+		{Fungsi ini berguna untuk menghitung harga modal dari sebuah resep
+		 I.S : Menerima masukan berupa ID
+		 F.S : Mengeluarkan output berupa Integer yang adalah harga modal resep yang telah dikalkulasikan sedemikian rupa}
 		{Kamus Lokal}
 		var
 			i, j : integer;
 		{Algoritma}
 		begin
-			hitungHargaModalResep:=0;
+			hitungHargaModalResep:=0; {inisialisai harga modal resep tersebut}
 			for i:=1 to dataResep.banyakItem do
 			begin
 				for j:=1 to dataBahanMentah.banyakItem do
@@ -81,6 +90,8 @@ end;
 									var dataResep : tabelResep; 
 									var dataSimulasi : tabelSimulasi; 
 									var dataInventoriBahanMentah : tabelBahanMentah);
+	{I.S : Menerima masukan ID dan data-data lainnya
+	 F.S : Hasil nama resep dan bahan-bahan penyusunnya akan disimpan di dalam array-array}
 	{Kamus Lokal}
 	var
 		nama : string; {nama resep baru yg dimasukin}
@@ -93,9 +104,9 @@ end;
 begin
 	repeat
 		write('Nama resep :'); readln(nama);
-		if (isResepExist(nama,dataResep)=true) then
+		if (isResepExist(nama,dataResep)=true) then {menggunakan fungsi isResepExist untuk mengecek apakah sudah ada resep dengan nama yang sama}
 		begin	
-			writeln('Nama resep telah ada, masukan nama yang lain!');
+			writeln('Nama resep telah ada, masukan nama yang lain!'); {validasi nama resep}
 		end;
 	until (isResepExist(nama,dataResep)=false);
 	
@@ -104,7 +115,7 @@ begin
 	ambilBaris(s,dataTemp);
 	
 			
-	if (dataTemp.banyakItem < 2 ) then
+	if (dataTemp.banyakItem < 2 ) then {banyak item penyusun resep harus >= 2}
 	begin	
 		writeln('Item kurang dari 2');
 	end else
@@ -139,7 +150,7 @@ begin
 				
 				if (dataResep.itemKe[ID].hargaJual < (0.125 * hitungHargaModalResep(ID,dataBahanMentah,dataBahanOlahan,dataResep,dataInventoriBahanMentah))) then
 				begin
-					writeln('Harga jual minimum harus 12,5% lebih tinggi dari harga modal!');
+					writeln('Harga jual minimum harus 12,5% lebih tinggi dari harga modal!'); {proses validasi harga jual resep tersebut}
 				end;
 			until ((dataResep.itemKe[ID].hargaJual >= (0.125 * hitungHargaModalResep(ID,dataBahanMentah,dataBahanOlahan,dataResep,dataInventoriBahanMentah))));	
 	end;
