@@ -67,6 +67,7 @@ implementation
 			write(dataBahanOlahan.itemKe[i].bahanBaku[j],' ');
 			writeln();
 			end;
+		readln(s);
 		cariBO(found,iBO,dataBahanOlahan,s);
 		writeln('Berapa banyak yang ingin dibuat?');
 		readln(jumlah);
@@ -136,7 +137,6 @@ implementation
 	var
 	i : integer;
 	begin
-	readln(s);
 	found:=false;
 	i:=1;
 		repeat

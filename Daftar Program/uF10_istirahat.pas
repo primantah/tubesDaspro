@@ -4,12 +4,12 @@ interface
 uses uP1_TipeBentukan;
 
 
-	procedure beristirahat (ID : integer; var dataSimulasi : tabelSimulasi);
+	procedure mainIstirahat (ID : integer; var dataSimulasi : tabelSimulasi);
 
 	
 implementation 
 
-	procedure beristirahat (ID : integer; var dataSimulasi : tabelSimulasi);
+	procedure mainIstirahat (ID : integer; var dataSimulasi : tabelSimulasi);
 
 	var
 	istirahat : Boolean;
