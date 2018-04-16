@@ -28,8 +28,9 @@ begin
 	tampilkanMenu('awal'); 	{TAMPILAN ANTARMUKA AWAL}
 	loaded := false; programSelesai := false; ID:=0;	{INISIALISASI VARIABEL}
 	
-	repeat
-		tampilkanMenu('utama'); {TAMPILAN MENU UTAMA}
+	tampilkanMenu('utama'); {TAMPILAN MENU UTAMA}
+	
+	repeat	
 
 		write('> '); readln(perintah); 	{MENYEDIAKAN PROMPT}
 		
