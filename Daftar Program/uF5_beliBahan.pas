@@ -60,7 +60,7 @@ implementation
 				
 				{membuat tanggal kadaluarsa}
 				inventoriBahanMentah.itemKe[index].tanggalKadaluarsa := inventoriBahanMentah.itemKe[index].tanggalBeli;
-				for i:= 1 to dataBahanMentah.itemKe[cariKadaluarsa(bahanYangDibeli, dataBahanMentah)].durasiKadaluarsa do 
+				for j:= 1 to dataBahanMentah.itemKe[cariKadaluarsa(bahanYangDibeli, dataBahanMentah)].durasiKadaluarsa do 
 				begin
 					updateTanggal(inventoriBahanMentah.itemKe[index].tanggalKadaluarsa);
 				end;
