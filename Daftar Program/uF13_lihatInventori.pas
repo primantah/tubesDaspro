@@ -49,7 +49,7 @@ implementation
 		else
 		begin
 			writeln('INVENTORI BAHAN OLAHAN');		
-			writeln('Nama | Harga Jual | Tanggal Buat | Jumlah Tersedia');
+			writeln('Nama | Tanggal Buat | Jumlah Tersedia');
 			for i := 1 to dataInventoriBahanOlahan.banyakItem do 
 			begin
 				write(dataInventoriBahanOlahan.itemKe[i].nama, ' | ');

@@ -3,9 +3,11 @@ unit uF3_startSimulasi;
 interface
 
 uses uP1_tipeBentukan, uP2_pesan,
-	 uF4_stopSimulasi, uF11_tidur, uF5_beliBahan, uF8_jualResep, uF9_makan, 
-	 uF6_OlahBahan, uF7_jualOlahan, uF16_tambahResep, uF17_upgradeInventori,
-	 uF13_lihatInventori, uF14_lihatResep, uF15_cariResep, uF12_lihatStatistik, uF10_istirahat;
+	 uF4_stopSimulasi, uF5_beliBahan, uF6_OlahBahan, 
+	 uF7_jualOlahan, uF8_jualResep, uF9_makan, 
+	 uF10_istirahat, uF11_tidur, uF12_lihatStatistik,
+	 uF13_lihatInventori, uF14_lihatResep, 
+	 uF15_cariResep, uF16_tambahResep, uF17_upgradeInventori;
 
 	procedure mainStartSimulasi(ID : integer;
 									var dataBahanMentah : tabelBahanMentah; 
@@ -74,12 +76,20 @@ implementation
 				'tambahResep'		: mainTambahResep(ID, dataBahanMentah, dataBahanOlahan, dataResep, dataSimulasi, dataInventoriBahanMentah);
 				'upgradeInventori' 	: mainUpgradeInventori(ID, dataSimulasi);
 				'makan'				: mainMakan(jmlMakan, dataSimulasi.itemKe[ID].jumlahEnergi);
-				'istirahat'			: mainIstirahat(ID, dataSimulasi);
+				'istirahat'			: mainIstirahat(jmlIstirahat, dataSimulasi.itemKe[ID].jumlahEnergi);
 				'tidur'				: mainTidur(dataSimulasi, dataInventoriBahanMentah, dataInventoriBahanOlahan, ID, jmlMakan, jmlIstirahat);
-				'beliBahan'			: mainBeliBahan(ID, dataBahanMentah, dataSimulasi, dataInventoriBahanMentah);
-				'olahBahan' 		: mainOlahBahan(ID,dataInventoriBahanMentah,dataBahanOlahan,dataSimulasi,dataInventoriBahanOlahan);
-				'jualOlahan'		: mainJualOlahan(ID,dataInventoriBahanOlahan,dataSimulasi);
-				'jualResep'			: if (not(lelah(dataSimulasi,ID))) then  mainJualResep(ID, dataInventoriBahanMentah, dataInventoriBahanOlahan, dataResep, dataSimulasi);
+				
+				'beliBahan'			: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi, dataInventoriBahanMentah, dataInventoriBahanOlahan,ID,jmlMakan,jmlIstirahat)
+									else mainBeliBahan(ID, dataBahanMentah, dataSimulasi, dataInventoriBahanMentah);
+				
+				'olahBahan' 		: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi, dataInventoriBahanMentah, dataInventoriBahanOlahan,ID,jmlMakan,jmlIstirahat)
+									else mainOlahBahan(ID,dataInventoriBahanMentah,dataBahanOlahan,dataSimulasi,dataInventoriBahanOlahan);
+				
+				'jualOlahan'		: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi, dataInventoriBahanMentah, dataInventoriBahanOlahan,ID,jmlMakan,jmlIstirahat)
+									else mainJualOlahan(ID,dataInventoriBahanOlahan,dataSimulasi);
+				
+				'jualResep'			: if (lelah(dataSimulasi,ID)) then mainTidur(dataSimulasi, dataInventoriBahanMentah, dataInventoriBahanOlahan,ID,jmlMakan,jmlIstirahat)
+									else mainJualResep(ID, dataInventoriBahanMentah, dataInventoriBahanOlahan, dataResep, dataSimulasi);
 				
 			end; {asumsi : perintah selalu valid}
 			hapusKosong(dataInventoriBahanMentah,dataInventoriBahanOlahan);
@@ -93,7 +103,6 @@ implementation
 		begin
 			writeln('Anda kelelahan, silahkan tidur');
 			lelah:= true
-			//mainTidur(dataSimulasi,dataBahanMentah, dataBahanOlahan, ID, jmlMakan);
 		end
 		else
 			lelah:= false;

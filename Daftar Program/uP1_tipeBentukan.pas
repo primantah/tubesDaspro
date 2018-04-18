@@ -11,14 +11,17 @@ interface
 			hargaBeli			: integer;
 			durasiKadaluarsa	: integer;
 			tanggalBeli			: tanggal;
+			tanggalKadaluarsa	: tanggal;
 			jumlahTersedia		: integer;
 		end;
 	type bahanOlahan = record
-			nama			: string;
-			hargaJual		: integer;
-			banyakBahanBaku	: integer;
-			bahanBaku		: array[1..NMax] of string;
-			tanggalBuat		: tanggal;
+			nama				: string;
+			hargaJual			: integer;
+			banyakBahanBaku		: integer;
+			bahanBaku			: array[1..NMax] of string;
+			tanggalBuat			: tanggal;
+			tanggalKadaluarsa	: tanggal;
+			durasiKadaluarsa	: integer;
 			jumlahTersedia	: integer;
 		end;
 	type resep = record
