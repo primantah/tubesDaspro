@@ -169,6 +169,8 @@ implementation
 	x:=0;
 		repeat
 			cariBM(dataBahanMentah,BO.bahanBaku[i],found,x);
+			if not(found) then
+				writeln('Bahan Mentah ',BO.bahanBaku[i],' tidak ditemukan!');
 			if found then
 				if dataBahanMentah.itemKe[x].jumlahTersedia<jumlah then
 				q:=false;
