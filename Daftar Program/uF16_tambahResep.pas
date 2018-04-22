@@ -109,16 +109,18 @@ begin
 			writeln('Nama resep telah ada, masukan nama yang lain!'); {validasi nama resep}
 		end;
 	until (isResepExist(nama,dataResep)=false);
-	
-	write('Bahan-bahan resep :');
-	readln(s);
-	ambilBaris(s,dataTemp);
-	
-			
-	if (dataTemp.banyakItem < 2 ) then {banyak item penyusun resep harus >= 2}
-	begin	
-		writeln('Item kurang dari 2');
-	end else
+
+	repeat
+		write('Bahan-bahan resep :');
+		readln(s);
+		ambilBaris(s,dataTemp);
+		
+				
+		if (dataResep.banyakItem < 2 ) then {banyak item penyusun resep harus >= 2}
+		begin
+			writeln('Item kurang dari 2');
+		end;
+	until (dataResep.banyakItem >= 2);
 	
 	begin
 		for i:=1 to dataTemp.banyakItem do		
